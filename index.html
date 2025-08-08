@@ -127,12 +127,15 @@ class="w-full h-64 object-contain rounded-lg">
 <strong class="text-blue-300">测试算法的创新点：</strong>采用梯度引导的扰动生成方法，能够在保持视觉不可察觉的前提下，有效降低目标检测模型的准确率。
 </p>
 </div>
-<div class="flex gap-4 justify-center">
-<button class="scenario-detect-btn bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap" data-scenario="1">
+<div class="flex flex-wrap gap-3 justify-center">
+<button class="scenario-detect-btn bg-primary text-white px-4 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap text-sm" data-scenario="1">
 检测
 </button>
-<button class="scenario-repair-btn bg-green-600 text-white px-6 py-3 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap" data-scenario="1">
+<button class="scenario-repair-btn bg-green-600 text-white px-4 py-2 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap text-sm" data-scenario="1">
 修复
+</button>
+<button class="vulnerability-trigger-btn bg-red-600 text-white px-4 py-2 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap text-sm" data-scenario="1">
+漏洞触发
 </button>
 </div>
 </div>
@@ -152,12 +155,15 @@ class="w-full h-64 object-contain rounded-lg">
 <strong class="text-blue-300">测试算法的创新点：</strong>基于重要性评分的位翻转策略，能够精确定位对模型性能影响最大的关键参数位置。
 </p>
 </div>
-<div class="flex gap-4 justify-center">
-<button class="scenario-detect-btn bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap" data-scenario="2">
+<div class="flex flex-wrap gap-3 justify-center">
+<button class="scenario-detect-btn bg-primary text-white px-4 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap text-sm" data-scenario="2">
 检测
 </button>
-<button class="scenario-repair-btn bg-green-600 text-white px-6 py-3 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap" data-scenario="2">
+<button class="scenario-repair-btn bg-green-600 text-white px-4 py-2 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap text-sm" data-scenario="2">
 修复
+</button>
+<button class="vulnerability-trigger-btn bg-red-600 text-white px-4 py-2 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap text-sm" data-scenario="2">
+漏洞触发
 </button>
 </div>
 </div>
@@ -177,12 +183,15 @@ class="w-full h-64 object-contain rounded-lg">
 <strong class="text-blue-300">测试算法的创新点：</strong>结合时间复杂度分析和资源消耗监控，能够识别并量化推理延迟攻击的严重程度。
 </p>
 </div>
-<div class="flex gap-4 justify-center">
-<button class="scenario-detect-btn bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap" data-scenario="3">
+<div class="flex flex-wrap gap-3 justify-center">
+<button class="scenario-detect-btn bg-primary text-white px-4 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap text-sm" data-scenario="3">
 检测
 </button>
-<button class="scenario-repair-btn bg-green-600 text-white px-6 py-3 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap" data-scenario="3">
+<button class="scenario-repair-btn bg-green-600 text-white px-4 py-2 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap text-sm" data-scenario="3">
 修复
+</button>
+<button class="vulnerability-trigger-btn bg-red-600 text-white px-4 py-2 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap text-sm" data-scenario="3">
+漏洞触发
 </button>
 </div>
 </div>
@@ -224,6 +233,24 @@ class="w-full h-64 object-contain rounded-lg">
 </div>
 </div>
 </div>
+<!-- 漏洞触发弹窗 -->
+<div id="vulnerabilityModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+<div class="bg-white rounded-xl max-w-5xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+<div class="p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 id="vulnerabilityModalTitle" class="text-2xl font-semibold text-gray-900">漏洞触发结果</h3>
+<button id="closeVulnerabilityModal" class="text-gray-500 hover:text-gray-700">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line ri-lg"></i>
+</div>
+</button>
+</div>
+<div id="vulnerabilityModalContent" class="text-gray-700">
+<!-- 动态内容 -->
+</div>
+</div>
+</div>
+</div>
 <script id="download-handler">
 document.addEventListener('DOMContentLoaded', function() {
 const downloadBtn = document.getElementById('downloadBtn');
@@ -249,14 +276,19 @@ alert('yolov8.pt 文件下载完成！');
 document.addEventListener('DOMContentLoaded', function() {
 const detectModal = document.getElementById('detectModal');
 const repairModal = document.getElementById('repairModal');
+const vulnerabilityModal = document.getElementById('vulnerabilityModal');
 const closeDetectModal = document.getElementById('closeDetectModal');
 const closeRepairModal = document.getElementById('closeRepairModal');
+const closeVulnerabilityModal = document.getElementById('closeVulnerabilityModal');
 // 关闭弹窗事件
 closeDetectModal.addEventListener('click', () => {
 detectModal.classList.add('hidden');
 });
 closeRepairModal.addEventListener('click', () => {
 repairModal.classList.add('hidden');
+});
+closeVulnerabilityModal.addEventListener('click', () => {
+vulnerabilityModal.classList.add('hidden');
 });
 // 点击背景关闭弹窗
 detectModal.addEventListener('click', (e) => {
@@ -269,12 +301,18 @@ if (e.target === repairModal) {
 repairModal.classList.add('hidden');
 }
 });
+vulnerabilityModal.addEventListener('click', (e) => {
+if (e.target === vulnerabilityModal) {
+vulnerabilityModal.classList.add('hidden');
+}
+});
 });
 </script>
 <script id="scenario-handlers">
 document.addEventListener('DOMContentLoaded', function() {
 const detectBtns = document.querySelectorAll('.scenario-detect-btn');
 const repairBtns = document.querySelectorAll('.scenario-repair-btn');
+const vulnerabilityBtns = document.querySelectorAll('.vulnerability-trigger-btn');
 // 检测按钮事件
 detectBtns.forEach(btn => {
 btn.addEventListener('click', function() {
@@ -289,6 +327,449 @@ const scenario = this.getAttribute('data-scenario');
 showRepairResult(scenario);
 });
 });
+// 漏洞触发按钮事件
+vulnerabilityBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+const scenario = this.getAttribute('data-scenario');
+showVulnerabilityResult(scenario);
+});
+});
+function showVulnerabilityResult(scenario) {
+const modal = document.getElementById('vulnerabilityModal');
+const title = document.getElementById('vulnerabilityModalTitle');
+const content = document.getElementById('vulnerabilityModalContent');
+title.textContent = `场景${scenario}漏洞触发演示`;
+if (scenario === '1') {
+// 场景1：对抗样本漏洞触发
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+<h4 class="text-lg font-semibold mb-4 text-red-900 flex items-center">
+<i class="ri-alert-line mr-2"></i>对抗样本漏洞攻击演示
+</h4>
+<p class="text-red-700 mb-4">正在模拟对抗样本攻击，观察模型在恶意扰动下的表现...</p>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<p class="text-sm text-gray-600 mb-2">正常检测结果</p>
+<div class="bg-white p-4 rounded border">
+<img src="https://picsum.photos/300/200?random=1" alt="正常检测" class="w-full rounded mb-2">
+<div class="text-sm">
+<span class="bg-green-100 text-green-800 px-2 py-1 rounded">飞机: 95.3%</span>
+<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded ml-2">建筑: 87.6%</span>
+</div>
+</div>
+</div>
+<div>
+<p class="text-sm text-gray-600 mb-2">对抗攻击后结果</p>
+<div class="bg-white p-4 rounded border">
+<img src="https://picsum.photos/300/200?random=2" alt="攻击后检测" class="w-full rounded mb-2">
+<div class="text-sm">
+<span class="bg-red-100 text-red-800 px-2 py-1 rounded">误检: 23.1%</span>
+<span class="bg-orange-100 text-orange-800 px-2 py-1 rounded ml-2">漏检: 78.4%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-yellow-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-yellow-900">攻击参数设置</h4>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-white p-4 rounded">
+<label class="block text-sm font-medium text-gray-700 mb-2">扰动强度 (ε)</label>
+<input type="range" min="0.001" max="0.1" step="0.001" value="0.031" class="w-full" id="epsilonSlider">
+<span class="text-sm text-gray-600" id="epsilonValue">0.031</span>
+</div>
+<div class="bg-white p-4 rounded">
+<label class="block text-sm font-medium text-gray-700 mb-2">迭代次数</label>
+<input type="number" min="1" max="100" value="10" class="w-full p-2 border rounded" id="iterationsInput">
+</div>
+<div class="bg-white p-4 rounded">
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击类型</label>
+<select class="w-full p-2 border rounded" id="attackType">
+<option value="fgsm">FGSM</option>
+<option value="pgd">PGD</option>
+<option value="cw">C&W</option>
+</select>
+</div>
+</div>
+<div class="mt-4 text-center">
+<button class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors" id="executeAttackBtn">
+<i class="ri-play-line mr-2"></i>执行攻击
+</button>
+</div>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4">实时攻击日志</h4>
+<div class="bg-black text-green-400 p-4 rounded font-mono text-sm max-h-48 overflow-y-auto" id="attackLog">
+[2024-08-09 14:23:45] 初始化对抗攻击模块...<br>
+[2024-08-09 14:23:46] 加载目标模型: YOLOv8<br>
+[2024-08-09 14:23:47] 设置攻击参数: ε=0.031, iterations=10<br>
+[2024-08-09 14:23:48] 生成对抗样本中...<br>
+[2024-08-09 14:23:50] <span class="text-red-400">检测到模型性能下降: 72.4%</span><br>
+[2024-08-09 14:23:51] <span class="text-yellow-400">攻击成功率: 89.2%</span><br>
+</div>
+</div>
+</div>
+`;
+} else if (scenario === '2') {
+// 场景2：位翻转攻击漏洞触发
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-500">
+<h4 class="text-lg font-semibold mb-4 text-orange-900 flex items-center">
+<i class="ri-cpu-line mr-2"></i>位翻转攻击漏洞演示
+</h4>
+<p class="text-orange-700 mb-4">模拟硬件故障引起的位翻转攻击，观察模型权重被恶意修改后的行为...</p>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">模型权重可视化</h5>
+<div class="space-y-4">
+<div>
+<label class="text-sm text-gray-600">Layer 1 权重分布</label>
+<div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+<div class="bg-blue-500 h-full transition-all duration-500" style="width: 85%" id="layer1Weight"></div>
+</div>
+</div>
+<div>
+<label class="text-sm text-gray-600">Layer 5 权重分布</label>
+<div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+<div class="bg-green-500 h-full transition-all duration-500" style="width: 72%" id="layer5Weight"></div>
+</div>
+</div>
+<div>
+<label class="text-sm text-gray-600">Layer 9 权重分布</label>
+<div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+<div class="bg-purple-500 h-full transition-all duration-500" style="width: 91%" id="layer9Weight"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">位翻转攻击控制</h5>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">目标层选择</label>
+<select class="w-full p-2 border rounded" id="targetLayer">
+<option value="1">Layer 1 (Conv)</option>
+<option value="5">Layer 5 (Conv)</option>
+<option value="9">Layer 9 (FC)</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">翻转位数</label>
+<input type="range" min="1" max="32" value="8" class="w-full" id="flipBits">
+<span class="text-sm text-gray-600" id="flipBitsValue">8 bits</span>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击强度</label>
+<select class="w-full p-2 border rounded" id="attackIntensity">
+<option value="low">低强度</option>
+<option value="medium">中等强度</option>
+<option value="high">高强度</option>
+</select>
+</div>
+<button class="w-full bg-orange-600 text-white py-2 rounded hover:bg-orange-700 transition-colors" id="executeBitFlipBtn">
+<i class="ri-zap-line mr-2"></i>执行位翻转攻击
+</button>
+</div>
+</div>
+</div>
+<div class="bg-red-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-red-900">攻击效果监控</h4>
+<div class="grid grid-cols-4 gap-4">
+<div class="text-center">
+<div class="text-2xl font-bold text-red-600" id="accuracyDrop">0%</div>
+<div class="text-sm text-gray-600">精度下降</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold text-orange-600" id="flippedBits">0</div>
+<div class="text-sm text-gray-600">已翻转位</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold text-purple-600" id="affectedLayers">0</div>
+<div class="text-sm text-gray-600">受影响层</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold text-blue-600" id="recoveryTime">0ms</div>
+<div class="text-sm text-gray-600">恢复时间</div>
+</div>
+</div>
+</div>
+</div>
+`;
+} else {
+// 场景3：推理延迟攻击漏洞触发
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
+<h4 class="text-lg font-semibold mb-4 text-purple-900 flex items-center">
+<i class="ri-time-line mr-2"></i>推理延迟攻击漏洞演示
+</h4>
+<p class="text-purple-700 mb-4">注入恶意样本导致模型推理时间异常延长，模拟DoS攻击场景...</p>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">实时性能监控</h5>
+<canvas id="performanceChart" width="300" height="200" class="w-full border rounded"></canvas>
+<div class="mt-4 text-center">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="text-xl font-bold text-green-600" id="normalLatency">45ms</div>
+<div class="text-sm text-gray-600">正常延迟</div>
+</div>
+                <div>
+<div class="text-xl font-bold text-red-600" id="attackLatency">45ms</div>
+<div class="text-sm text-gray-600">攻击延迟</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">延迟攻击参数</h5>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击样本数量</label>
+<input type="range" min="1" max="100" value="10" class="w-full" id="sampleCount">
+<span class="text-sm text-gray-600" id="sampleCountValue">10 samples</span>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">复杂度倍数</label>
+<input type="range" min="1" max="20" value="5" class="w-full" id="complexityMultiplier">
+<span class="text-sm text-gray-600" id="complexityValue">5x</span>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击模式</label>
+<select class="w-full p-2 border rounded" id="delayAttackMode">
+<option value="burst">突发模式</option>
+<option value="sustained">持续模式</option>
+<option value="random">随机模式</option>
+</select>
+</div>
+<button class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition-colors" id="executeDelayAttackBtn">
+<i class="ri-hourglass-line mr-2"></i>启动延迟攻击
+</button>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4">系统资源占用</h4>
+<div class="grid grid-cols-3 gap-6">
+<div class="text-center">
+<div class="text-3xl mb-2">🖥️</div>
+<div class="text-lg font-bold text-blue-600" id="cpuUsage">23%</div>
+<div class="text-sm text-gray-600">CPU 使用率</div>
+<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+<div class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: 23%" id="cpuBar"></div>
+</div>
+</div>
+<div class="text-center">
+<div class="text-3xl mb-2">💾</div>
+<div class="text-lg font-bold text-green-600" id="memoryUsage">1.2GB</div>
+<div class="text-sm text-gray-600">内存使用</div>
+<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+<div class="bg-green-600 h-2 rounded-full transition-all duration-500" style="width: 45%" id="memoryBar"></div>
+</div>
+</div>
+<div class="text-center">
+<div class="text-3xl mb-2">⚡</div>
+<div class="text-lg font-bold text-orange-600" id="gpuUsage">67%</div>
+<div class="text-sm text-gray-600">GPU 使用率</div>
+<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+<div class="bg-orange-600 h-2 rounded-full transition-all duration-500" style="width: 67%" id="gpuBar"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-red-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-red-900">攻击影响分析</h4>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<h5 class="font-medium mb-3">延迟统计</h5>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between">
+<span>平均延迟增长:</span>
+<span class="font-bold text-red-600" id="avgDelayIncrease">+0ms</span>
+</div>
+<div class="flex justify-between">
+<span>最大延迟:</span>
+<span class="font-bold text-red-600" id="maxDelay">45ms</span>
+</div>
+<div class="flex justify-between">
+<span>吞吐量下降:</span>
+<span class="font-bold text-red-600" id="throughputDrop">0%</span>
+</div>
+<div class="flex justify-between">
+<span>超时请求:</span>
+<span class="font-bold text-red-600" id="timeoutRequests">0</span>
+</div>
+</div>
+</div>
+<div>
+<h5 class="font-medium mb-3">服务可用性</h5>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between">
+<span>服务状态:</span>
+<span class="font-bold text-green-600" id="serviceStatus">正常</span>
+</div>
+<div class="flex justify-between">
+<span>响应成功率:</span>
+<span class="font-bold" id="successRate">100%</span>
+</div>
+<div class="flex justify-between">
+<span>队列长度:</span>
+<span class="font-bold" id="queueLength">0</span>
+</div>
+<div class="flex justify-between">
+<span>并发连接:</span>
+<span class="font-bold" id="concurrentConnections">1</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+`;
+}
+// 添加交互功能
+setTimeout(() => {
+addVulnerabilityInteractions(scenario);
+}, 100);
+modal.classList.remove('hidden');
+}
+function addVulnerabilityInteractions(scenario) {
+if (scenario === '1') {
+// 场景1的交互逻辑
+const epsilonSlider = document.getElementById('epsilonSlider');
+const epsilonValue = document.getElementById('epsilonValue');
+const executeBtn = document.getElementById('executeAttackBtn');
+const attackLog = document.getElementById('attackLog');
+if (epsilonSlider && epsilonValue) {
+epsilonSlider.addEventListener('input', function() {
+epsilonValue.textContent = this.value;
+});
+}
+if (executeBtn && attackLog) {
+executeBtn.addEventListener('click', function() {
+const originalText = this.innerHTML;
+this.innerHTML = '<i class="ri-loader-line animate-spin mr-2"></i>攻击执行中...';
+this.disabled = true;
+// 模拟攻击过程
+setTimeout(() => {
+attackLog.innerHTML += '<br>[2024-08-09 14:23:52] <span class="text-red-400">攻击执行完成!</span><br>';
+attackLog.innerHTML += '[2024-08-09 14:23:53] <span class="text-yellow-400">建议立即启动防护措施</span><br>';
+attackLog.scrollTop = attackLog.scrollHeight;
+this.innerHTML = originalText;
+this.disabled = false;
+}, 3000);
+});
+}
+} else if (scenario === '2') {
+// 场景2的交互逻辑
+const flipBits = document.getElementById('flipBits');
+const flipBitsValue = document.getElementById('flipBitsValue');
+const executeBtn = document.getElementById('executeBitFlipBtn');
+if (flipBits && flipBitsValue) {
+flipBits.addEventListener('input', function() {
+flipBitsValue.textContent = this.value + ' bits';
+});
+}
+if (executeBtn) {
+executeBtn.addEventListener('click', function() {
+const accuracyDrop = document.getElementById('accuracyDrop');
+const flippedBits = document.getElementById('flippedBits');
+const affectedLayers = document.getElementById('affectedLayers');
+const recoveryTime = document.getElementById('recoveryTime');
+const originalText = this.innerHTML;
+this.innerHTML = '<i class="ri-loader-line animate-spin mr-2"></i>攻击执行中...';
+this.disabled = true;
+// 模拟攻击效果
+const interval = setInterval(() => {
+if (accuracyDrop) accuracyDrop.textContent = Math.floor(Math.random() * 30 + 5) + '%';
+if (flippedBits) flippedBits.textContent = Math.floor(Math.random() * 50 + 10);
+if (affectedLayers) affectedLayers.textContent = Math.floor(Math.random() * 5 + 1);
+if (recoveryTime) recoveryTime.textContent = Math.floor(Math.random() * 1000 + 500) + 'ms';
+}, 500);
+setTimeout(() => {
+clearInterval(interval);
+this.innerHTML = originalText;
+this.disabled = false;
+}, 5000);
+});
+}
+} else if (scenario === '3') {
+// 场景3的交互逻辑
+const sampleCount = document.getElementById('sampleCount');
+const sampleCountValue = document.getElementById('sampleCountValue');
+const complexityMultiplier = document.getElementById('complexityMultiplier');
+const complexityValue = document.getElementById('complexityValue');
+const executeBtn = document.getElementById('executeDelayAttackBtn');
+if (sampleCount && sampleCountValue) {
+sampleCount.addEventListener('input', function() {
+sampleCountValue.textContent = this.value + ' samples';
+});
+}
+if (complexityMultiplier && complexityValue) {
+complexityMultiplier.addEventListener('input', function() {
+complexityValue.textContent = this.value + 'x';
+});
+}
+if (executeBtn) {
+executeBtn.addEventListener('click', function() {
+const originalText = this.innerHTML;
+this.innerHTML = '<i class="ri-loader-line animate-spin mr-2"></i>攻击执行中...';
+this.disabled = true;
+// 启动实时更新
+const interval = setInterval(() => {
+updateDelayAttackMetrics();
+}, 1000);
+setTimeout(() => {
+clearInterval(interval);
+this.innerHTML = originalText;
+this.disabled = false;
+}, 10000);
+});
+}
+}
+}
+function updateDelayAttackMetrics() {
+const elements = {
+attackLatency: document.getElementById('attackLatency'),
+cpuUsage: document.getElementById('cpuUsage'),
+memoryUsage: document.getElementById('memoryUsage'),
+gpuUsage: document.getElementById('gpuUsage'),
+cpuBar: document.getElementById('cpuBar'),
+memoryBar: document.getElementById('memoryBar'),
+gpuBar: document.getElementById('gpuBar'),
+avgDelayIncrease: document.getElementById('avgDelayIncrease'),
+maxDelay: document.getElementById('maxDelay'),
+throughputDrop: document.getElementById('throughputDrop'),
+timeoutRequests: document.getElementById('timeoutRequests'),
+serviceStatus: document.getElementById('serviceStatus'),
+successRate: document.getElementById('successRate'),
+queueLength: document.getElementById('queueLength'),
+concurrentConnections: document.getElementById('concurrentConnections')
+};
+// 模拟攻击期间的数值变化
+const attackLatency = Math.floor(Math.random() * 500 + 100);
+const cpuUsage = Math.floor(Math.random() * 60 + 40);
+const gpuUsage = Math.floor(Math.random() * 40 + 60);
+if (elements.attackLatency) elements.attackLatency.textContent = attackLatency + 'ms';
+if (elements.cpuUsage) elements.cpuUsage.textContent = cpuUsage + '%';
+if (elements.gpuUsage) elements.gpuUsage.textContent = gpuUsage + '%';
+if (elements.cpuBar) elements.cpuBar.style.width = cpuUsage + '%';
+if (elements.gpuBar) elements.gpuBar.style.width = gpuUsage + '%';
+if (elements.avgDelayIncrease) elements.avgDelayIncrease.textContent = '+' + Math.floor(attackLatency - 45) + 'ms';
+if (elements.maxDelay) elements.maxDelay.textContent = Math.floor(attackLatency * 1.5) + 'ms';
+if (elements.throughputDrop) elements.throughputDrop.textContent = Math.floor((attackLatency - 45) / 10) + '%';
+if (elements.serviceStatus && attackLatency > 300) {
+elements.serviceStatus.textContent = '警告';
+elements.serviceStatus.className = 'font-bold text-yellow-600';
+} else if (elements.serviceStatus && attackLatency > 200) {
+elements.serviceStatus.textContent = '降级';
+elements.serviceStatus.className = 'font-bold text-orange-600';
+}
+}
 function showDetectResult(scenario) {
 const modal = document.getElementById('detectModal');
 const title = document.getElementById('detectModalTitle');
