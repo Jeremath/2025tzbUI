@@ -588,33 +588,21 @@ content.innerHTML = `
     </div>
   </div>
 
-  <!-- 影响分析 -->
-  <div class="rounded-xl p-6 bg-orange-50 border border-orange-100">
-    <h5 class="text-base font-semibold mb-3 text-orange-900">性能影响分析</h5>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="rounded-lg p-4 bg-white border border-orange-100">
-        <p class="text-xs text-gray-500 mb-1">推理延迟（检测阶段）</p>
-        <p class="text-xl font-bold text-orange-700">${data.timeIncrease}</p>
-        <p class="text-[11px] text-gray-400 mt-1">单次检测额外开销</p>
-      </div>
-      <div class="rounded-lg p-4 bg-white border border-orange-100">
-        <p class="text-xs text-gray-500 mb-1">精度稳定性</p>
-        <p class="text-sm text-gray-700">mAP 降幅在不同 IoU 阈值下均明显</p>
-        <div class="mt-2 flex gap-2">
-          <span class="text-[11px] px-2 py-0.5 rounded-full bg-red-50 text-red-700 ring-1 ring-red-100">@.5 -${data.map50Drop}%</span>
-          <span class="text-[11px] px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 ring-1 ring-orange-100">@.5:.95 -${data.map5095Drop}%</span>
-        </div>
-      </div>
-      <div class="rounded-lg p-4 bg-white border border-orange-100">
-        <p class="text-xs text-gray-500 mb-1">建议</p>
-        <ul class="text-sm text-gray-700 list-disc pl-5 space-y-1">
-          <li>对权重量化位进行奇偶校验/CRC 校验</li>
-          <li>部署推理前快速校验与异常回滚</li>
-          <li>关键层（det/head）添加冗余校验集</li>
-        </ul>
-      </div>
+  <!-- 位翻转详细信息 -->
+  <div class="rounded-xl p-6 bg-gray-50 border border-gray-100">
+    <div class="flex items-center justify-between mb-3">
+      <h5 class="text-base font-semibold text-gray-900">位翻转详细信息</h5>
+      <span class="text-xs text-gray-500">共 ${data.flipCount} 处</span>
     </div>
+    <ul class="space-y-2">
+      ${data.positions.map(pos => `
+        <li class="text-sm text-gray-700 bg-white p-3 rounded-lg border border-gray-200 hover:border-blue-300 transition">
+          <span class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-2 align-middle"></span>${pos}
+        </li>
+      `).join('')}
+    </ul>
   </div>
+</div>
 
   <!-- ✅ 新增：漏洞传播路径可视化 -->
   <div data-viz="vuln-path" class="max-w-4xl mx-auto px-6 py-12">
@@ -630,22 +618,6 @@ content.innerHTML = `
       </div>
     </div>
   </div>
-
-  <!-- 位翻转具体位置 -->
-  <div class="rounded-xl p-6 bg-gray-50 border border-gray-100">
-    <div class="flex items-center justify-between mb-3">
-      <h5 class="text-base font-semibold text-gray-900">位翻转具体位置</h5>
-      <span class="text-xs text-gray-500">共 ${data.flipCount} 处</span>
-    </div>
-    <ul class="space-y-2">
-      ${data.positions.map(pos => `
-        <li class="text-sm text-gray-700 bg-white p-3 rounded-lg border border-gray-200 hover:border-blue-300 transition">
-          <span class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-2 align-middle"></span>${pos}
-        </li>
-      `).join('')}
-    </ul>
-  </div>
-</div>
 `;
 
 // 下面放的是渲染场景二漏洞触发流程的代码

@@ -76,7 +76,7 @@ content: "\f3c2";
 <!-- 顶部标题区域 -->
 <div class="relative overflow-hidden">
 <div class="absolute inset-0">
-<img src="./figure/卫星地球图像.jpg"
+<img src="./image/卫星地球图像.jpg"
 class="w-full h-full object-cover opacity-20" alt="背景">
 </div>
 <div class="max-w-7xl mx-auto px-6 py-12 relative">
@@ -85,15 +85,106 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 </h1>
 <div class="absolute -top-20 -left-20 w-40 h-40 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
 <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-<!-- YOLO模型流程图区域 -->
+<!-- 航天-威胁-检测-修复（Inline SVG 流程图，箭头加粗加大、纯白；黄色全部改为蓝色系） -->
 <div class="tech-card tech-border rounded-xl p-8 mb-8 tech-glow">
-<h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">YOLO 模型流程图</h2>
-<div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
-<img src="./figure/系统流程图.jpg"
-alt="YOLO模型流程图"
-class="w-full h-64 object-contain rounded-lg">
+  <h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">系统流程图</h2>
+  <div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
+    <svg viewBox="0 0 1200 420" width="100%" height="100%" role="img" aria-label="航天场景定义 → 威胁模型构建 → 漏洞检测方案 → 漏洞修复模型">
+      <defs>
+        <style>
+          .col { rx:16; ry:16; stroke-width:2; }
+          .hdr { font: 700 20px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto; fill:#111827; }
+          .item { rx:10; ry:10; }
+          .itxt { font: 600 16px/1.2 ui-sans-serif, system-ui; fill:#111827; }
+          .arrow { fill:#ffffff; stroke:#ffffff; stroke-width:2; opacity:1; }
+        </style>
+      </defs>
+
+      <!-- 列1：航天场景定义（蓝） -->
+      <g transform="translate(40,40)">
+        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
+        <text class="hdr" x="125" y="40" text-anchor="middle">航天场景定义</text>
+
+        <rect class="item" x="20" y="80"  width="210" height="56" fill="#93c5fd"/>
+        <text class="itxt" x="125" y="115" text-anchor="middle" fill="#0f172a">遥感识别与感知任务</text>
+
+        <rect class="item" x="20" y="150" width="210" height="56" fill="#93c5fd"/>
+        <text class="itxt" x="125" y="185" text-anchor="middle" fill="#0f172a">太空复杂、极端环境</text>
+
+        <rect class="item" x="20" y="220" width="210" height="56" fill="#93c5fd"/>
+        <text class="itxt" x="125" y="255" text-anchor="middle" fill="#0f172a">实时性要求严格</text>
+      </g>
+
+      <!-- 加粗加大的白色箭头1 -->
+      <g transform="translate(292,186)">
+        <!-- 宽度约120，高度约56 -->
+        <path class="arrow" d="M0,0 h40 v-28 l80,28 l-80,28 v-28 h-40 z"></path>
+      </g>
+
+      <!-- 列2：威胁模型构建（由黄改蓝） -->
+      <g transform="translate(330,40)">
+        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
+        <text class="hdr" x="125" y="40" text-anchor="middle">威胁模型构建</text>
+
+        <rect class="item" x="20" y="80"  width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="115" text-anchor="middle">目标误判漏洞</text>
+
+        <rect class="item" x="20" y="150" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="185" text-anchor="middle">位翻转漏洞</text>
+
+        <rect class="item" x="20" y="220" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="255" text-anchor="middle">延迟攻击漏洞</text>
+      </g>
+
+      <!-- 加粗加大的白色箭头2 -->
+      <g transform="translate(582,186)">
+        <path class="arrow" d="M0,0 h40 v-28 l80,28 l-80,28 v-28 h-40 z"></path>
+      </g>
+
+      <!-- 列3：漏洞检测方案（蓝） -->
+      <g transform="translate(620,40)">
+        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
+        <text class="hdr" x="125" y="40" text-anchor="middle">漏洞检测方案</text>
+
+        <rect class="item" x="20" y="80" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="103" text-anchor="middle">基于对抗攻击的目标</text>
+        <text class="itxt" x="125" y="123" text-anchor="middle">误判漏洞检测</text>
+
+        <rect class="item" x="20" y="150" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="173" text-anchor="middle">基于渐进搜索的位翻</text>
+        <text class="itxt" x="125" y="193" text-anchor="middle">转漏洞检测</text>
+
+        <rect class="item" x="20" y="220" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="243" text-anchor="middle">基于延迟攻击的实时</text>
+        <text class="itxt" x="125" y="263" text-anchor="middle">算法漏洞检测</text>
+      </g>
+
+      <!-- 加粗加大的白色箭头3 -->
+      <g transform="translate(872,186)">
+        <path class="arrow" d="M0,0 h40 v-28 l80,28 l-80,28 v-28 h-40 z"></path>
+      </g>
+
+      <!-- 列4：漏洞修复模型（由黄改蓝） -->
+      <g transform="translate(910,40)">
+        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
+        <text class="hdr" x="125" y="40" text-anchor="middle">漏洞修复模型</text>
+
+        <rect class="item" x="20" y="80" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="103" text-anchor="middle">基于对抗性训练的目</text>
+        <text class="itxt" x="125" y="123" text-anchor="middle">标识别漏洞修复</text>
+
+        <rect class="item" x="20" y="150" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="173" text-anchor="middle">基于二值感知训练的</text>
+        <text class="itxt" x="125" y="193" text-anchor="middle">位翻转漏洞修复</text>
+
+        <rect class="item" x="20" y="220" width="210" height="56" fill="#bfdbfe"/>
+        <text class="itxt" x="125" y="243" text-anchor="middle">基于背景感知对抗训</text>
+        <text class="itxt" x="125" y="263" text-anchor="middle">练的时延漏洞修复</text>
+      </g>
+    </svg>
+  </div>
 </div>
-</div>
+
 <!-- 模型下载区域 -->
 <div class="text-center">
   <div class="inline-flex items-center gap-4">
@@ -160,10 +251,10 @@ class="w-full h-64 object-contain rounded-lg">
 <h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">卫星目标误判漏洞对抗</h3>
 <div class="mb-8">
 <p class="text-gray-300 leading-relaxed mb-4">
-对抗样本攻击检测算法，通过在原始图像中添加微小的扰动，生成能够欺骗深度学习模型的对抗样本。
+目标误判漏洞对抗，通过利用对抗样本攻击算法在图像上添加微小扰动，模拟航天遥感图像识别可能面临的多源复合噪声，检测目标模型是否易发生目标误判。
 </p>
 <p class="text-gray-400 leading-relaxed">
-<strong class="text-blue-300">测试算法的创新点：</strong>采用梯度引导的扰动生成方法，能够在保持视觉不可察觉的前提下，有效降低目标检测模型的准确率。
+<strong class="text-blue-300">测试算法的创新点：</strong>采用梯度引导的扰动生成方法，能够在少量数据依赖下生成通用对抗样本，实现在黑盒条件下的对抗攻击，有效检测目标误判漏洞。
 </p>
 </div>
 <div class="flex gap-4 justify-center">
@@ -352,12 +443,12 @@ content.innerHTML = `
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <figure class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <img src="./figure/场景1_1.png" alt="原始图像"
+        <img src="./image/场景1_1.png" alt="原始图像"
              class="w-full h-64 object-contain bg-gray-50">
         <figcaption class="text-xs text-gray-600 px-3 py-2 border-t">原始图像</figcaption>
       </figure>
       <figure class="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <img src="./figure/场景1_2.png" alt="对抗样本"
+        <img src="./image/场景1_2.png" alt="对抗样本"
              class="w-full h-64 object-contain bg-gray-50">
         <figcaption class="text-xs text-gray-600 px-3 py-2 border-t">对抗样本（叠加扰动）</figcaption>
       </figure>
@@ -715,11 +806,11 @@ content.innerHTML = `
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
         <p class="text-sm text-gray-600 mb-2">原始图像</p>
-        <img src="./figure/场景3_1.jpg" alt="原始图像" class="w-full rounded-lg border border-blue-100">
+        <img src="./image/场景3_1.jpg" alt="原始图像" class="w-full rounded-lg border border-blue-100">
       </div>
       <div>
         <p class="text-sm text-gray-600 mb-2">叠加 UAP 图像</p>
-        <img src="./figure/场景3_2.jpg" alt="叠加 UAP 的对抗样本图像" class="w-full rounded-lg border border-blue-100">
+        <img src="./image/场景3_2.jpg" alt="叠加 UAP 的对抗样本图像" class="w-full rounded-lg border border-blue-100">
       </div>
     </div>
   </div>
