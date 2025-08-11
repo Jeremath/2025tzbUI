@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对抗系统</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+body {
+font-family: 'Space Grotesk', sans-serif;
+background: linear-gradient(135deg, #1a1f35 0%, #283045 100%);
+color: #fff;
+}
+@keyframes fade-in {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+.animate-fade-in {
+animation: fade-in 0.3s ease-out forwards;
+}
+.tech-border {
+position: relative;
+overflow: hidden;
+border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.tech-card {
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.tech-glow {
+box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+</style>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+primary: '#3b82f6',
+secondary: '#1e40af'
+},
+borderRadius: {
+'none': '0px',
+'sm': '4px',
+DEFAULT: '8px',
+'md': '12px',
+'lg': '16px',
+'xl': '20px',
+'2xl': '24px',
+'3xl': '32px',
+'full': '9999px',
+'button': '8px'
+}
+}
+}
+}
+</script>
+<style>
+:where([class^="ri-"])::before {
+content: "\f3c2";
+}
+</style>
+</head>
+<body class="min-h-screen">
+<!-- 顶部标题区域 -->
+<div class="relative overflow-hidden">
+<div class="absolute inset-0">
+<img src="./figure/卫星地球图像.jpg"
+class="w-full h-full object-cover opacity-20" alt="背景">
+</div>
+<div class="max-w-7xl mx-auto px-6 py-12 relative">
+<h1 class="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">
+OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对抗系统
+</h1>
+<div class="absolute -top-20 -left-20 w-40 h-40 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+<div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+<!-- YOLO模型流程图区域 -->
+<div class="tech-card tech-border rounded-xl p-8 mb-8 tech-glow">
+<h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">YOLO 模型流程图</h2>
+<div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
+<img src="./figure/系统流程图.jpg"
+alt="YOLO模型流程图"
+class="w-full h-64 object-contain rounded-lg">
+</div>
+</div>
+<!-- 模型下载区域 -->
+<div class="text-center">
+<div class="inline-flex items-center gap-4">
+<span class="text-lg text-gray-700">下载 yolov8.pt 文件：</span>
+<button id="downloadBtn" class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-download-line"></i>
+</div>
+下载
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 功能模块区域 -->
+<div class="max-w-7xl mx-auto px-6 py-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- 场景一 -->
+<div class="tech-card tech-border rounded-xl p-8 transform hover:scale-105 transition-transform duration-300 backdrop-blur-md bg-white/5 hover:border-blue-400 transition-colors">
+<div class="absolute top-4 right-4">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-radar-line text-blue-400"></i>
+</div>
+</div>
+<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">卫星图像对抗样本检测</h3>
+<div class="mb-8">
+<p class="text-gray-300 leading-relaxed mb-4">
+对抗样本攻击检测算法，通过在原始图像中添加微小的扰动，生成能够欺骗深度学习模型的对抗样本。
+</p>
+<p class="text-gray-400 leading-relaxed">
+<strong class="text-blue-300">测试算法的创新点：</strong>采用梯度引导的扰动生成方法，能够在保持视觉不可察觉的前提下，有效降低目标检测模型的准确率。
+</p>
+</div>
+<div class="flex flex-wrap gap-3 justify-center">
+<button class="scenario-detect-btn bg-primary text-white px-4 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap text-sm" data-scenario="1">
+检测
+</button>
+<button class="scenario-repair-btn bg-green-600 text-white px-4 py-2 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap text-sm" data-scenario="1">
+修复
+</button>
+<button class="vulnerability-trigger-btn bg-red-600 text-white px-4 py-2 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap text-sm" data-scenario="1">
+漏洞触发
+</button>
+</div>
+</div>
+<!-- 场景二 -->
+<div class="tech-card tech-border rounded-xl p-8 transform hover:scale-105 transition-transform duration-300 backdrop-blur-md bg-white/5 hover:border-blue-400 transition-colors">
+<div class="absolute top-4 right-4">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-shield-flash-line text-blue-400"></i>
+</div>
+</div>
+<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">位翻转攻击检测</h3>
+<div class="mb-8">
+<p class="text-gray-300 leading-relaxed mb-4">
+模型参数位翻转攻击检测，通过翻转神经网络权重参数的特定位，模拟硬件故障对模型推理的影响。
+</p>
+<p class="text-gray-400 leading-relaxed">
+<strong class="text-blue-300">测试算法的创新点：</strong>基于重要性评分的位翻转策略，能够精确定位对模型性能影响最大的关键参数位置。
+</p>
+</div>
+<div class="flex flex-wrap gap-3 justify-center">
+<button class="scenario-detect-btn bg-primary text-white px-4 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap text-sm" data-scenario="2">
+检测
+</button>
+<button class="scenario-repair-btn bg-green-600 text-white px-4 py-2 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap text-sm" data-scenario="2">
+修复
+</button>
+<button class="vulnerability-trigger-btn bg-red-600 text-white px-4 py-2 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap text-sm" data-scenario="2">
+漏洞触发
+</button>
+</div>
+</div>
+<!-- 场景三 -->
+<div class="tech-card tech-border rounded-xl p-8 transform hover:scale-105 transition-transform duration-300 backdrop-blur-md bg-white/5 hover:border-blue-400 transition-colors">
+<div class="absolute top-4 right-4">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-timer-flash-line text-blue-400"></i>
+</div>
+</div>
+<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">推理时间延迟攻击检测</h3>
+<div class="mb-8">
+<p class="text-gray-300 leading-relaxed mb-4">
+推理时间延迟攻击检测，通过注入计算复杂度高的恶意样本，导致模型推理时间显著增加。
+</p>
+<p class="text-gray-400 leading-relaxed">
+<strong class="text-blue-300">测试算法的创新点：</strong>结合时间复杂度分析和资源消耗监控，能够识别并量化推理延迟攻击的严重程度。
+</p>
+</div>
+<div class="flex flex-wrap gap-3 justify-center">
+<button class="scenario-detect-btn bg-primary text-white px-4 py-2 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap text-sm" data-scenario="3">
+检测
+</button>
+<button class="scenario-repair-btn bg-green-600 text-white px-4 py-2 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap text-sm" data-scenario="3">
+修复
+</button>
+<button class="vulnerability-trigger-btn bg-red-600 text-white px-4 py-2 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap text-sm" data-scenario="3">
+漏洞触发
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 检测结果弹窗 -->
+<div id="detectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+<div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+<div class="p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 id="detectModalTitle" class="text-2xl font-semibold text-gray-900">检测结果</h3>
+<button id="closeDetectModal" class="text-gray-500 hover:text-gray-700">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line ri-lg"></i>
+</div>
+</button>
+</div>
+<div id="detectModalContent" class="text-gray-700">
+<!-- 动态内容 -->
+</div>
+</div>
+</div>
+</div>
+<!-- 修复结果弹窗 -->
+<div id="repairModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+<div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+<div class="p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 id="repairModalTitle" class="text-2xl font-semibold text-gray-900">修复结果</h3>
+<button id="closeRepairModal" class="text-gray-500 hover:text-gray-700">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line ri-lg"></i>
+</div>
+</button>
+</div>
+<div id="repairModalContent" class="text-gray-700">
+<!-- 动态内容 -->
+</div>
+</div>
+</div>
+</div>
+<!-- 漏洞触发弹窗 -->
+<div id="vulnerabilityModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+<div class="bg-white rounded-xl max-w-5xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+<div class="p-8">
+<div class="flex justify-between items-center mb-6">
+<h3 id="vulnerabilityModalTitle" class="text-2xl font-semibold text-gray-900">漏洞触发结果</h3>
+<button id="closeVulnerabilityModal" class="text-gray-500 hover:text-gray-700">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-close-line ri-lg"></i>
+</div>
+</button>
+</div>
+<div id="vulnerabilityModalContent" class="text-gray-700">
+<!-- 动态内容 -->
+</div>
+</div>
+</div>
+</div>
+<script id="download-handler">
+document.addEventListener('DOMContentLoaded', function() {
+const downloadBtn = document.getElementById('downloadBtn');
+downloadBtn.addEventListener('click', function() {
+// 模拟文件下载
+const link = document.createElement('a');
+link.href = '#';
+link.download = 'yolov8.pt';
+link.textContent = 'yolov8.pt';
+// 创建临时提示
+const originalText = downloadBtn.innerHTML;
+downloadBtn.innerHTML = '<div class="w-5 h-5 flex items-center justify-center"><i class="ri-check-line"></i></div>下载中...';
+downloadBtn.disabled = true;
+setTimeout(() => {
+downloadBtn.innerHTML = originalText;
+downloadBtn.disabled = false;
+alert('yolov8.pt 文件下载完成！');
+}, 2000);
+});
+});
+</script>
+<script id="modal-handlers">
+document.addEventListener('DOMContentLoaded', function() {
+const detectModal = document.getElementById('detectModal');
+const repairModal = document.getElementById('repairModal');
+const vulnerabilityModal = document.getElementById('vulnerabilityModal');
+const closeDetectModal = document.getElementById('closeDetectModal');
+const closeRepairModal = document.getElementById('closeRepairModal');
+const closeVulnerabilityModal = document.getElementById('closeVulnerabilityModal');
+// 关闭弹窗事件
+closeDetectModal.addEventListener('click', () => {
+detectModal.classList.add('hidden');
+});
+closeRepairModal.addEventListener('click', () => {
+repairModal.classList.add('hidden');
+});
+closeVulnerabilityModal.addEventListener('click', () => {
+vulnerabilityModal.classList.add('hidden');
+});
+// 点击背景关闭弹窗
+detectModal.addEventListener('click', (e) => {
+if (e.target === detectModal) {
+detectModal.classList.add('hidden');
+}
+});
+repairModal.addEventListener('click', (e) => {
+if (e.target === repairModal) {
+repairModal.classList.add('hidden');
+}
+});
+vulnerabilityModal.addEventListener('click', (e) => {
+if (e.target === vulnerabilityModal) {
+vulnerabilityModal.classList.add('hidden');
+}
+});
+});
+</script>
+<script id="scenario-handlers">
+document.addEventListener('DOMContentLoaded', function() {
+const detectBtns = document.querySelectorAll('.scenario-detect-btn');
+const repairBtns = document.querySelectorAll('.scenario-repair-btn');
+const vulnerabilityBtns = document.querySelectorAll('.vulnerability-trigger-btn');
+// 检测按钮事件
+detectBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+const scenario = this.getAttribute('data-scenario');
+showDetectResult(scenario);
+});
+});
+// 修复按钮事件
+repairBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+const scenario = this.getAttribute('data-scenario');
+showRepairResult(scenario);
+});
+});
+// 漏洞触发按钮事件
+vulnerabilityBtns.forEach(btn => {
+btn.addEventListener('click', function() {
+const scenario = this.getAttribute('data-scenario');
+showVulnerabilityResult(scenario);
+});
+});
+function showVulnerabilityResult(scenario) {
+const modal = document.getElementById('vulnerabilityModal');
+const title = document.getElementById('vulnerabilityModalTitle');
+const content = document.getElementById('vulnerabilityModalContent');
+title.textContent = `场景${scenario}漏洞触发演示`;
+if (scenario === '1') {
+// 场景1：对抗样本漏洞触发
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-red-50 p-6 rounded-lg border-l-4 border-red-500">
+<h4 class="text-lg font-semibold mb-4 text-red-900 flex items-center">
+<i class="ri-alert-line mr-2"></i>对抗样本漏洞攻击演示
+</h4>
+<p class="text-red-700 mb-4">正在模拟对抗样本攻击，观察模型在恶意扰动下的表现...</p>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<p class="text-sm text-gray-600 mb-2">正常检测结果</p>
+<div class="bg-white p-4 rounded border">
+<img src="https://picsum.photos/300/200?random=1" alt="正常检测" class="w-full rounded mb-2">
+<div class="text-sm">
+<span class="bg-green-100 text-green-800 px-2 py-1 rounded">飞机: 95.3%</span>
+<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded ml-2">建筑: 87.6%</span>
+</div>
+</div>
+</div>
+<div>
+<p class="text-sm text-gray-600 mb-2">对抗攻击后结果</p>
+<div class="bg-white p-4 rounded border">
+<img src="https://picsum.photos/300/200?random=2" alt="攻击后检测" class="w-full rounded mb-2">
+<div class="text-sm">
+<span class="bg-red-100 text-red-800 px-2 py-1 rounded">误检: 23.1%</span>
+<span class="bg-orange-100 text-orange-800 px-2 py-1 rounded ml-2">漏检: 78.4%</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-yellow-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-yellow-900">攻击参数设置</h4>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-white p-4 rounded">
+<label class="block text-sm font-medium text-gray-700 mb-2">扰动强度 (ε)</label>
+<input type="range" min="0.001" max="0.1" step="0.001" value="0.031" class="w-full" id="epsilonSlider">
+<span class="text-sm text-gray-600" id="epsilonValue">0.031</span>
+</div>
+<div class="bg-white p-4 rounded">
+<label class="block text-sm font-medium text-gray-700 mb-2">迭代次数</label>
+<input type="number" min="1" max="100" value="10" class="w-full p-2 border rounded" id="iterationsInput">
+</div>
+<div class="bg-white p-4 rounded">
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击类型</label>
+<select class="w-full p-2 border rounded" id="attackType">
+<option value="fgsm">FGSM</option>
+<option value="pgd">PGD</option>
+<option value="cw">C&W</option>
+</select>
+</div>
+</div>
+<div class="mt-4 text-center">
+<button class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition-colors" id="executeAttackBtn">
+<i class="ri-play-line mr-2"></i>执行攻击
+</button>
+</div>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4">实时攻击日志</h4>
+<div class="bg-black text-green-400 p-4 rounded font-mono text-sm max-h-48 overflow-y-auto" id="attackLog">
+[2024-08-09 14:23:45] 初始化对抗攻击模块...<br>
+[2024-08-09 14:23:46] 加载目标模型: YOLOv8<br>
+[2024-08-09 14:23:47] 设置攻击参数: ε=0.031, iterations=10<br>
+[2024-08-09 14:23:48] 生成对抗样本中...<br>
+[2024-08-09 14:23:50] <span class="text-red-400">检测到模型性能下降: 72.4%</span><br>
+[2024-08-09 14:23:51] <span class="text-yellow-400">攻击成功率: 89.2%</span><br>
+</div>
+</div>
+</div>
+`;
+} else if (scenario === '2') {
+// 场景2：位翻转攻击漏洞触发
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-orange-50 p-6 rounded-lg border-l-4 border-orange-500">
+<h4 class="text-lg font-semibold mb-4 text-orange-900 flex items-center">
+<i class="ri-cpu-line mr-2"></i>位翻转攻击漏洞演示
+</h4>
+<p class="text-orange-700 mb-4">模拟硬件故障引起的位翻转攻击，观察模型权重被恶意修改后的行为...</p>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">模型权重可视化</h5>
+<div class="space-y-4">
+<div>
+<label class="text-sm text-gray-600">Layer 1 权重分布</label>
+<div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+<div class="bg-blue-500 h-full transition-all duration-500" style="width: 85%" id="layer1Weight"></div>
+</div>
+</div>
+<div>
+<label class="text-sm text-gray-600">Layer 5 权重分布</label>
+<div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+<div class="bg-green-500 h-full transition-all duration-500" style="width: 72%" id="layer5Weight"></div>
+</div>
+</div>
+<div>
+<label class="text-sm text-gray-600">Layer 9 权重分布</label>
+<div class="bg-gray-200 rounded-full h-4 overflow-hidden">
+<div class="bg-purple-500 h-full transition-all duration-500" style="width: 91%" id="layer9Weight"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">位翻转攻击控制</h5>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">目标层选择</label>
+<select class="w-full p-2 border rounded" id="targetLayer">
+<option value="1">Layer 1 (Conv)</option>
+<option value="5">Layer 5 (Conv)</option>
+<option value="9">Layer 9 (FC)</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">翻转位数</label>
+<input type="range" min="1" max="32" value="8" class="w-full" id="flipBits">
+<span class="text-sm text-gray-600" id="flipBitsValue">8 bits</span>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击强度</label>
+<select class="w-full p-2 border rounded" id="attackIntensity">
+<option value="low">低强度</option>
+<option value="medium">中等强度</option>
+<option value="high">高强度</option>
+</select>
+</div>
+<button class="w-full bg-orange-600 text-white py-2 rounded hover:bg-orange-700 transition-colors" id="executeBitFlipBtn">
+<i class="ri-zap-line mr-2"></i>执行位翻转攻击
+</button>
+</div>
+</div>
+</div>
+<div class="bg-red-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-red-900">攻击效果监控</h4>
+<div class="grid grid-cols-4 gap-4">
+<div class="text-center">
+<div class="text-2xl font-bold text-red-600" id="accuracyDrop">0%</div>
+<div class="text-sm text-gray-600">精度下降</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold text-orange-600" id="flippedBits">0</div>
+<div class="text-sm text-gray-600">已翻转位</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold text-purple-600" id="affectedLayers">0</div>
+<div class="text-sm text-gray-600">受影响层</div>
+</div>
+<div class="text-center">
+<div class="text-2xl font-bold text-blue-600" id="recoveryTime">0ms</div>
+<div class="text-sm text-gray-600">恢复时间</div>
+</div>
+</div>
+</div>
+</div>
+`;
+} else {
+// 场景3：推理延迟攻击漏洞触发
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-purple-50 p-6 rounded-lg border-l-4 border-purple-500">
+<h4 class="text-lg font-semibold mb-4 text-purple-900 flex items-center">
+<i class="ri-time-line mr-2"></i>推理延迟攻击漏洞演示
+</h4>
+<p class="text-purple-700 mb-4">注入恶意样本导致模型推理时间异常延长，模拟DoS攻击场景...</p>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">实时性能监控</h5>
+<canvas id="performanceChart" width="300" height="200" class="w-full border rounded"></canvas>
+<div class="mt-4 text-center">
+<div class="grid grid-cols-2 gap-4">
+<div>
+<div class="text-xl font-bold text-green-600" id="normalLatency">45ms</div>
+<div class="text-sm text-gray-600">正常延迟</div>
+</div>
+                <div>
+<div class="text-xl font-bold text-red-600" id="attackLatency">45ms</div>
+<div class="text-sm text-gray-600">攻击延迟</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-lg border">
+<h5 class="font-semibold mb-4">延迟攻击参数</h5>
+<div class="space-y-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击样本数量</label>
+<input type="range" min="1" max="100" value="10" class="w-full" id="sampleCount">
+<span class="text-sm text-gray-600" id="sampleCountValue">10 samples</span>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">复杂度倍数</label>
+<input type="range" min="1" max="20" value="5" class="w-full" id="complexityMultiplier">
+<span class="text-sm text-gray-600" id="complexityValue">5x</span>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-2">攻击模式</label>
+<select class="w-full p-2 border rounded" id="delayAttackMode">
+<option value="burst">突发模式</option>
+<option value="sustained">持续模式</option>
+<option value="random">随机模式</option>
+</select>
+</div>
+<button class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition-colors" id="executeDelayAttackBtn">
+<i class="ri-hourglass-line mr-2"></i>启动延迟攻击
+</button>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4">系统资源占用</h4>
+<div class="grid grid-cols-3 gap-6">
+<div class="text-center">
+<div class="text-3xl mb-2">🖥️</div>
+<div class="text-lg font-bold text-blue-600" id="cpuUsage">23%</div>
+<div class="text-sm text-gray-600">CPU 使用率</div>
+<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+<div class="bg-blue-600 h-2 rounded-full transition-all duration-500" style="width: 23%" id="cpuBar"></div>
+</div>
+</div>
+<div class="text-center">
+<div class="text-3xl mb-2">💾</div>
+<div class="text-lg font-bold text-green-600" id="memoryUsage">1.2GB</div>
+<div class="text-sm text-gray-600">内存使用</div>
+<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+<div class="bg-green-600 h-2 rounded-full transition-all duration-500" style="width: 45%" id="memoryBar"></div>
+</div>
+</div>
+<div class="text-center">
+<div class="text-3xl mb-2">⚡</div>
+<div class="text-lg font-bold text-orange-600" id="gpuUsage">67%</div>
+<div class="text-sm text-gray-600">GPU 使用率</div>
+<div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+<div class="bg-orange-600 h-2 rounded-full transition-all duration-500" style="width: 67%" id="gpuBar"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-red-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-red-900">攻击影响分析</h4>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<h5 class="font-medium mb-3">延迟统计</h5>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between">
+<span>平均延迟增长:</span>
+<span class="font-bold text-red-600" id="avgDelayIncrease">+0ms</span>
+</div>
+<div class="flex justify-between">
+<span>最大延迟:</span>
+<span class="font-bold text-red-600" id="maxDelay">45ms</span>
+</div>
+<div class="flex justify-between">
+<span>吞吐量下降:</span>
+<span class="font-bold text-red-600" id="throughputDrop">0%</span>
+</div>
+<div class="flex justify-between">
+<span>超时请求:</span>
+<span class="font-bold text-red-600" id="timeoutRequests">0</span>
+</div>
+</div>
+</div>
+<div>
+<h5 class="font-medium mb-3">服务可用性</h5>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between">
+<span>服务状态:</span>
+<span class="font-bold text-green-600" id="serviceStatus">正常</span>
+</div>
+<div class="flex justify-between">
+<span>响应成功率:</span>
+<span class="font-bold" id="successRate">100%</span>
+</div>
+<div class="flex justify-between">
+<span>队列长度:</span>
+<span class="font-bold" id="queueLength">0</span>
+</div>
+<div class="flex justify-between">
+<span>并发连接:</span>
+<span class="font-bold" id="concurrentConnections">1</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+`;
+}
+// 添加交互功能
+setTimeout(() => {
+addVulnerabilityInteractions(scenario);
+}, 100);
+modal.classList.remove('hidden');
+}
+function addVulnerabilityInteractions(scenario) {
+if (scenario === '1') {
+// 场景1的交互逻辑
+const epsilonSlider = document.getElementById('epsilonSlider');
+const epsilonValue = document.getElementById('epsilonValue');
+const executeBtn = document.getElementById('executeAttackBtn');
+const attackLog = document.getElementById('attackLog');
+if (epsilonSlider && epsilonValue) {
+epsilonSlider.addEventListener('input', function() {
+epsilonValue.textContent = this.value;
+});
+}
+if (executeBtn && attackLog) {
+executeBtn.addEventListener('click', function() {
+const originalText = this.innerHTML;
+this.innerHTML = '<i class="ri-loader-line animate-spin mr-2"></i>攻击执行中...';
+this.disabled = true;
+// 模拟攻击过程
+setTimeout(() => {
+attackLog.innerHTML += '<br>[2024-08-09 14:23:52] <span class="text-red-400">攻击执行完成!</span><br>';
+attackLog.innerHTML += '[2024-08-09 14:23:53] <span class="text-yellow-400">建议立即启动防护措施</span><br>';
+attackLog.scrollTop = attackLog.scrollHeight;
+this.innerHTML = originalText;
+this.disabled = false;
+}, 3000);
+});
+}
+} else if (scenario === '2') {
+// 场景2的交互逻辑
+const flipBits = document.getElementById('flipBits');
+const flipBitsValue = document.getElementById('flipBitsValue');
+const executeBtn = document.getElementById('executeBitFlipBtn');
+if (flipBits && flipBitsValue) {
+flipBits.addEventListener('input', function() {
+flipBitsValue.textContent = this.value + ' bits';
+});
+}
+if (executeBtn) {
+executeBtn.addEventListener('click', function() {
+const accuracyDrop = document.getElementById('accuracyDrop');
+const flippedBits = document.getElementById('flippedBits');
+const affectedLayers = document.getElementById('affectedLayers');
+const recoveryTime = document.getElementById('recoveryTime');
+const originalText = this.innerHTML;
+this.innerHTML = '<i class="ri-loader-line animate-spin mr-2"></i>攻击执行中...';
+this.disabled = true;
+// 模拟攻击效果
+const interval = setInterval(() => {
+if (accuracyDrop) accuracyDrop.textContent = Math.floor(Math.random() * 30 + 5) + '%';
+if (flippedBits) flippedBits.textContent = Math.floor(Math.random() * 50 + 10);
+if (affectedLayers) affectedLayers.textContent = Math.floor(Math.random() * 5 + 1);
+if (recoveryTime) recoveryTime.textContent = Math.floor(Math.random() * 1000 + 500) + 'ms';
+}, 500);
+setTimeout(() => {
+clearInterval(interval);
+this.innerHTML = originalText;
+this.disabled = false;
+}, 5000);
+});
+}
+} else if (scenario === '3') {
+// 场景3的交互逻辑
+const sampleCount = document.getElementById('sampleCount');
+const sampleCountValue = document.getElementById('sampleCountValue');
+const complexityMultiplier = document.getElementById('complexityMultiplier');
+const complexityValue = document.getElementById('complexityValue');
+const executeBtn = document.getElementById('executeDelayAttackBtn');
+if (sampleCount && sampleCountValue) {
+sampleCount.addEventListener('input', function() {
+sampleCountValue.textContent = this.value + ' samples';
+});
+}
+if (complexityMultiplier && complexityValue) {
+complexityMultiplier.addEventListener('input', function() {
+complexityValue.textContent = this.value + 'x';
+});
+}
+if (executeBtn) {
+executeBtn.addEventListener('click', function() {
+const originalText = this.innerHTML;
+this.innerHTML = '<i class="ri-loader-line animate-spin mr-2"></i>攻击执行中...';
+this.disabled = true;
+// 启动实时更新
+const interval = setInterval(() => {
+updateDelayAttackMetrics();
+}, 1000);
+setTimeout(() => {
+clearInterval(interval);
+this.innerHTML = originalText;
+this.disabled = false;
+}, 10000);
+});
+}
+}
+}
+function updateDelayAttackMetrics() {
+const elements = {
+attackLatency: document.getElementById('attackLatency'),
+cpuUsage: document.getElementById('cpuUsage'),
+memoryUsage: document.getElementById('memoryUsage'),
+gpuUsage: document.getElementById('gpuUsage'),
+cpuBar: document.getElementById('cpuBar'),
+memoryBar: document.getElementById('memoryBar'),
+gpuBar: document.getElementById('gpuBar'),
+avgDelayIncrease: document.getElementById('avgDelayIncrease'),
+maxDelay: document.getElementById('maxDelay'),
+throughputDrop: document.getElementById('throughputDrop'),
+timeoutRequests: document.getElementById('timeoutRequests'),
+serviceStatus: document.getElementById('serviceStatus'),
+successRate: document.getElementById('successRate'),
+queueLength: document.getElementById('queueLength'),
+concurrentConnections: document.getElementById('concurrentConnections')
+};
+// 模拟攻击期间的数值变化
+const attackLatency = Math.floor(Math.random() * 500 + 100);
+const cpuUsage = Math.floor(Math.random() * 60 + 40);
+const gpuUsage = Math.floor(Math.random() * 40 + 60);
+if (elements.attackLatency) elements.attackLatency.textContent = attackLatency + 'ms';
+if (elements.cpuUsage) elements.cpuUsage.textContent = cpuUsage + '%';
+if (elements.gpuUsage) elements.gpuUsage.textContent = gpuUsage + '%';
+if (elements.cpuBar) elements.cpuBar.style.width = cpuUsage + '%';
+if (elements.gpuBar) elements.gpuBar.style.width = gpuUsage + '%';
+if (elements.avgDelayIncrease) elements.avgDelayIncrease.textContent = '+' + Math.floor(attackLatency - 45) + 'ms';
+if (elements.maxDelay) elements.maxDelay.textContent = Math.floor(attackLatency * 1.5) + 'ms';
+if (elements.throughputDrop) elements.throughputDrop.textContent = Math.floor((attackLatency - 45) / 10) + '%';
+if (elements.serviceStatus && attackLatency > 300) {
+elements.serviceStatus.textContent = '警告';
+elements.serviceStatus.className = 'font-bold text-yellow-600';
+} else if (elements.serviceStatus && attackLatency > 200) {
+elements.serviceStatus.textContent = '降级';
+elements.serviceStatus.className = 'font-bold text-orange-600';
+}
+}
+function showDetectResult(scenario) {
+const modal = document.getElementById('detectModal');
+const title = document.getElementById('detectModalTitle');
+const content = document.getElementById('detectModalContent');
+title.textContent = `场景${scenario}检测结果`;
+if (scenario === '1') {
+// 场景1：对抗样本干扰可视化
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-blue-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-blue-900">对抗样本干扰可视化</h4>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<p class="text-sm text-gray-600 mb-2">原始图像</p>
+<img src="https://readdy.ai/api/search-image?query=satellite%20remote%20sensing%20image%20of%20urban%20area%20with%20clear%20buildings%20and%20roads%2C%20high%20resolution%20aerial%20view%2C%20clean%20background&width=300&height=200&seq=original_image&orientation=landscape"
+alt="原始图像" class="w-full rounded-lg border">
+</div>
+<div>
+<p class="text-sm text-gray-600 mb-2">对抗样本</p>
+<img src="https://readdy.ai/api/search-image?query=satellite%20remote%20sensing%20image%20with%20subtle%20adversarial%20noise%20perturbations%2C%20slightly%20distorted%20but%20visually%20similar%20to%20original%2C%20technical%20visualization&width=300&height=200&seq=adversarial_image&orientation=landscape"
+alt="对抗样本" class="w-full rounded-lg border">
+</div>
+</div>
+</div>
+<div class="bg-red-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-red-900">攻击效果分析</h4>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<p class="text-sm text-gray-600">扰动强度：<span class="font-semibold">ε = 0.031</span></p>
+<p class="text-sm text-gray-600">检测精度下降：<span class="font-semibold text-red-600">23.5%</span></p>
+</div>
+<div>
+<p class="text-sm text-gray-600">成功攻击率：<span class="font-semibold text-red-600">87.3%</span></p>
+<p class="text-sm text-gray-600">视觉不可察觉性：<span class="font-semibold">SSIM = 0.98</span></p>
+</div>
+</div>
+</div>
+</div>
+`;
+} else {
+// 场景2和3：数据结果
+const data = scenario === '2' ? {
+title: '位翻转攻击检测结果',
+flipCount: '127',
+positions: ['Layer 3, Weight[245,67]', 'Layer 7, Bias[12]', 'Layer 11, Weight[89,156]'],
+accuracyDrop: '15.8%',
+timeIncrease: '2.3ms'
+} : {
+title: '推理延迟攻击检测结果',
+flipCount: '89',
+positions: ['Layer 5, Weight[123,45]', 'Layer 9, Bias[78]', 'Layer 13, Weight[234,89]'],
+accuracyDrop: '12.4%',
+timeIncrease: '45.7ms'
+};
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-yellow-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-yellow-900">${data.title}</h4>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<p class="text-sm text-gray-600 mb-2">位翻转次数</p>
+<p class="text-2xl font-bold text-yellow-700">${data.flipCount}</p>
+</div>
+<div>
+<p class="text-sm text-gray-600 mb-2">模型精度下降</p>
+<p class="text-2xl font-bold text-red-600">${data.accuracyDrop}</p>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4">位翻转具体位置</h4>
+<ul class="space-y-2">
+${data.positions.map(pos => `<li class="text-sm text-gray-700 bg-white p-2 rounded border-l-4 border-blue-400">${pos}</li>`).join('')}
+</ul>
+</div>
+<div class="bg-orange-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-orange-900">性能影响分析</h4>
+<div class="grid grid-cols-2 gap-6">
+<div>
+<p class="text-sm text-gray-600">推理时间延长</p>
+<p class="text-xl font-bold text-orange-700">${data.timeIncrease}</p>
+</div>
+<div>
+<p class="text-sm text-gray-600">内存占用增加</p>
+<p class="text-xl font-bold text-orange-700">8.5MB</p>
+</div>
+</div>
+</div>
+</div>
+`;
+}
+modal.classList.remove('hidden');
+}
+function showRepairResult(scenario) {
+const modal = document.getElementById('repairModal');
+const title = document.getElementById('repairModalTitle');
+const content = document.getElementById('repairModalContent');
+function handleRepairedModelDownload() {
+const downloadBtn = document.getElementById('downloadRepairedModelBtn');
+const reportBtn = document.getElementById('downloadReportBtn');
+if (!downloadBtn || !reportBtn) return;
+downloadBtn.addEventListener('click', function() {
+const link = document.createElement('a');
+link.href = '#';
+link.download = 'yolov8_repaired.pt';
+const originalContent = this.innerHTML;
+this.innerHTML = `
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-loader-4-line animate-spin"></i>
+</div>
+下载中...
+`;
+this.disabled = true;
+setTimeout(() => {
+this.innerHTML = originalContent;
+this.disabled = false;
+const notification = document.createElement('div');
+notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
+notification.innerHTML = '修复后模型下载完成！';
+document.body.appendChild(notification);
+setTimeout(() => {
+notification.remove();
+}, 3000);
+}, 2000);
+});
+reportBtn.addEventListener('click', function() {
+const originalContent = this.innerHTML;
+this.innerHTML = `
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-loader-4-line animate-spin"></i>
+</div>
+下载中...
+`;
+this.disabled = true;
+const currentDate = new Date().toISOString().split('T')[0];
+const reportContent = `
+修复报告
+生成日期: ${currentDate}
+1. 修复概述
+- 修复前精度: ${document.querySelector('.text-red-600').textContent}
+- 修复后精度: ${document.querySelector('.text-green-600').textContent}
+- 性能提升: ${document.querySelector('.text-blue-600').textContent}
+2. 修复方法
+${document.querySelector('.border-l-4.border-blue-400').textContent}
+3. 技术细节
+- 模型架构: YOLOv8
+- 优化方案: 对抗训练 + 特征去噪
+- 计算资源消耗: GPU利用率降低15%
+- 内存占用优化: 减少25%
+4. 性能评估
+- 推理速度: 提升30%
+- 准确率: 提升17.7%
+- 鲁棒性: 提升45%
+5. 建议
+- 定期进行模型健康检查
+- 持续监控性能指标
+- 及时更新防御策略
+`;
+const blob = new Blob([reportContent], { type: 'text/plain' });
+const url = window.URL.createObjectURL(blob);
+const link = document.createElement('a');
+link.href = url;
+link.download = `repair_report_${currentDate}.txt`;
+setTimeout(() => {
+link.click();
+window.URL.revokeObjectURL(url);
+this.innerHTML = originalContent;
+this.disabled = false;
+const notification = document.createElement('div');
+notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
+notification.innerHTML = '修复报告下载完成！';
+document.body.appendChild(notification);
+setTimeout(() => {
+notification.remove();
+}, 3000);
+}, 2000);
+});
+}
+setTimeout(() => {
+handleRepairedModelDownload();
+}, 100);
+title.textContent = `场景${scenario}修复结果`;
+const repairData = {
+'1': {
+title: '对抗样本防御修复',
+beforeAccuracy: '76.5%',
+afterAccuracy: '94.2%',
+improvement: '17.7%',
+method: '对抗训练 + 特征去噪'
+},
+'2': {
+title: '位翻转错误修复',
+beforeAccuracy: '84.2%',
+afterAccuracy: '98.7%',
+improvement: '14.5%',
+method: '错误检测纠正 + 冗余校验'
+},
+'3': {
+title: '推理延迟优化修复',
+beforeAccuracy: '87.6%',
+afterAccuracy: '97.3%',
+improvement: '9.7%',
+method: '计算图优化 + 资源调度'
+}
+};
+const data = repairData[scenario];
+content.innerHTML = `
+<div class="space-y-6">
+<div class="bg-green-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-green-900">${data.title}</h4>
+<div class="grid grid-cols-3 gap-6">
+<div class="text-center">
+<p class="text-sm text-gray-600 mb-2">修复前精度</p>
+<p class="text-2xl font-bold text-red-600">${data.beforeAccuracy}</p>
+</div>
+<div class="text-center">
+<p class="text-sm text-gray-600 mb-2">修复后精度</p>
+<p class="text-2xl font-bold text-green-600">${data.afterAccuracy}</p>
+</div>
+<div class="text-center">
+<p class="text-sm text-gray-600 mb-2">性能提升</p>
+<p class="text-2xl font-bold text-blue-600">+${data.improvement}</p>
+</div>
+</div>
+</div>
+<div class="bg-blue-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4 text-blue-900">修复方法</h4>
+<p class="text-gray-700 bg-white p-4 rounded border-l-4 border-blue-400">${data.method}</p>
+</div>
+<div class="bg-gray-50 p-6 rounded-lg">
+<h4 class="text-lg font-semibold mb-4">修复后模型下载</h4>
+<div class="flex gap-4">
+<button id="downloadRepairedModelBtn" class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-download-line"></i>
+</div>
+下载修复后模型
+</button>
+<button id="downloadReportBtn" class="bg-gray-600 text-white px-6 py-3 !rounded-button hover:bg-gray-700 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-file-text-line"></i>
+</div>
+下载修复报告
+</button>
+</div>
+</div>
+</div>
+`;
+modal.classList.remove('hidden');
+}
+});
+</script>
+</body>
+</html>

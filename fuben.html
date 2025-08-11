@@ -85,29 +85,323 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 </h1>
 <div class="absolute -top-20 -left-20 w-40 h-40 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
 <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-<!-- YOLO模型流程图区域 -->
+<!-- YOLO模型流程图（Inline SVG 版本） -->
 <div class="tech-card tech-border rounded-xl p-8 mb-8 tech-glow">
-<h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">YOLO 模型流程图</h2>
-<div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
-<img src="./figure/系统流程图.jpg"
-alt="YOLO模型流程图"
-class="w-full h-64 object-contain rounded-lg">
+  <h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">YOLO 模型流程图</h2>
+
+  <div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
+    <svg viewBox="0 0 1200 660" width="100%" height="100%" role="img" aria-label="YOLO 模型流程图（Backbone、Neck、Detect 与轻量化模块）">
+      <defs>
+        <!-- 箭头 -->
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="#64748b"></path>
+        </marker>
+        <!-- 通用样式 -->
+        <style>
+          .box { rx:10; ry:10; stroke:#64748b; stroke-width:1.2; }
+          .cap { font: 600 14px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto; fill:#0f172a; }
+          .cap-sm { font: 600 12px/1.2 ui-sans-serif, system-ui; fill:#0f172a; }
+          .wire { stroke:#64748b; stroke-width:1.6; fill:none; marker-end:url(#arrow); }
+          .section { stroke-dasharray:6 6; stroke:#94a3b8; fill:rgba(148,163,184,0.05); }
+          .note { font: 12px ui-sans-serif, system-ui; fill:#334155; }
+        </style>
+        <!-- 颜色 -->
+        <linearGradient id="cyl" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#93c5fd"/>
+          <stop offset="100%" stop-color="#60a5fa"/>
+        </linearGradient>
+      </defs>
+
+      <!-- 区域框：Backbone / Neck / Detect / Lightweight -->
+      <rect x="20"  y="20"  width="1160" height="200" class="section"/>
+      <text x="1120" y="40" class="note">Backbone 主干网络</text>
+
+      <rect x="620" y="235" width="560" height="240" class="section"/>
+      <text x="1100" y="255" class="note">Neck 颈部网络</text>
+
+      <rect x="980" y="490" width="200" height="140" class="section"/>
+      <text x="1125" y="510" class="note">Detect</text>
+
+      <rect x="20"  y="235" width="570" height="395" class="section"/>
+      <text x="420" y="255" class="note" text-anchor="end">轻量化模块 Lightweight modules</text>
+
+      <!-- 左上：Input -->
+      <g transform="translate(30,70)">
+        <rect x="0" y="0" width="80" height="50" rx="8" ry="8" fill="#e2e8f0" class="box"></rect>
+        <text x="40" y="22" text-anchor="middle" class="cap-sm">输入</text>
+        <text x="40" y="40" text-anchor="middle" class="cap-sm">Input</text>
+      </g>
+
+      <!-- Backbone 顶部流水线（示意关键模块序列） -->
+      <!-- 块颜色：CBS=白、ECA=浅蓝、Ghost_CBS=橙、Ghost_CSP1_x=桃色、Ghost_SPFF=红 -->
+      <g transform="translate(130,60)">
+        <!-- CBS -->
+        <rect x="0" y="0" width="90" height="70" class="box" fill="#ffffff"/>
+        <text x="45" y="40" text-anchor="middle" class="cap">CBS</text>
+
+        <!-- ECA -->
+        <rect x="100" y="0" width="90" height="70" class="box" fill="#bfdbfe"/>
+        <text x="145" y="40" text-anchor="middle" class="cap">ECA</text>
+
+        <!-- Ghost_CBS -->
+        <rect x="200" y="0" width="120" height="70" class="box" fill="#fb923c"/>
+        <text x="260" y="40" text-anchor="middle" class="cap">Ghost_CBS</text>
+
+        <!-- Ghost_CSP1_1 -->
+        <rect x="330" y="0" width="140" height="70" class="box" fill="#fed7aa"/>
+        <text x="400" y="40" text-anchor="middle" class="cap">Ghost_CSP1_1</text>
+
+        <!-- ECA -->
+        <rect x="480" y="0" width="90" height="70" class="box" fill="#bfdbfe"/>
+        <text x="525" y="40" text-anchor="middle" class="cap">ECA</text>
+
+        <!-- Ghost_CBS -->
+        <rect x="580" y="0" width="120" height="70" class="box" fill="#fb923c"/>
+        <text x="640" y="40" text-anchor="middle" class="cap">Ghost_CBS</text>
+
+        <!-- Ghost_CSP1_2 -->
+        <rect x="710" y="0" width="140" height="70" class="box" fill="#fed7aa"/>
+        <text x="780" y="40" text-anchor="middle" class="cap">Ghost_CSP1_2</text>
+
+        <!-- ECA -->
+        <rect x="860" y="0" width="90" height="70" class="box" fill="#bfdbfe"/>
+        <text x="905" y="40" text-anchor="middle" class="cap">ECA</text>
+
+        <!-- Ghost_SPFF -->
+        <rect x="960" y="0" width="120" height="70" class="box" fill="#ef4444"/>
+        <text x="1020" y="40" text-anchor="middle" class="cap" fill="#fff">Ghost_SPFF</text>
+      </g>
+
+      <!-- Backbone 产出至 Neck 的三路特征 -->
+      <!-- taps at x positions corresponding to CSP1_1 / CSP1_2 / SPFF -->
+      <path class="wire" d="M 530 130 L 530 260"/>
+      <path class="wire" d="M 810 130 L 810 260"/>
+      <path class="wire" d="M 1080 130 L 1080 260"/>
+
+      <!-- 右侧 Neck：自顶向下 FPN/PAN 式结构（Concat + Upsample + Ghost_CBS + Ghost_CSP2_1） -->
+      <!-- 顶部 concat -->
+      <g transform="translate(650,260)">
+        <rect x="0" y="0" width="180" height="48" class="box" fill="#a7f3d0"/>
+        <text x="90" y="30" text-anchor="middle" class="cap">Concat</text>
+      </g>
+      <path class="wire" d="M 530 260 L 650 284"/>
+      <path class="wire" d="M 810 260 L 650 284"/>
+      <path class="wire" d="M 1080 260 L 650 284"/>
+
+      <!-- Ghost_CBS + Upsample -->
+      <g transform="translate(860,260)">
+        <rect x="0" y="0" width="140" height="48" class="box" fill="#fb923c"/>
+        <text x="70" y="30" text-anchor="middle" class="cap">Ghost_CBS</text>
+      </g>
+      <g transform="translate(1010,260)">
+        <rect x="0" y="0" width="140" height="48" class="box" fill="#cbd5e1"/>
+        <text x="70" y="30" text-anchor="middle" class="cap">Upsample2D</text>
+      </g>
+      <path class="wire" d="M 830 284 L 860 284"/>
+      <path class="wire" d="M 1000 284 L 1010 284"/>
+
+      <!-- 第二层 concat -->
+      <g transform="translate(650,330)">
+        <rect x="0" y="0" width="180" height="48" class="box" fill="#a7f3d0"/>
+        <text x="90" y="30" text-anchor="middle" class="cap">Concat</text>
+      </g>
+      <path class="wire" d="M 1080 284 L 830 360"/>
+      <path class="wire" d="M 650 284 L 650 354"/>
+
+      <!-- 下行：Ghost_CSP2_1 + 出口到 Detect（3 路） -->
+      <g transform="translate(860,330)">
+        <rect x="0" y="0" width="180" height="48" class="box" fill="#fde68a"/>
+        <text x="90" y="30" text-anchor="middle" class="cap">Ghost_CSP2_1</text>
+      </g>
+      <path class="wire" d="M 830 354 L 860 354"/>
+      <!-- 再次下采样路径（示意） -->
+      <g transform="translate(650,400)">
+        <rect x="0" y="0" width="180" height="48" class="box" fill="#a7f3d0"/>
+        <text x="90" y="30" text-anchor="middle" class="cap">Concat</text>
+      </g>
+      <g transform="translate(860,400)">
+        <rect x="0" y="0" width="180" height="48" class="box" fill="#fde68a"/>
+        <text x="90" y="30" text-anchor="middle" class="cap">Ghost_CSP2_1</text>
+      </g>
+      <path class="wire" d="M 740 378 L 740 424"/>
+      <path class="wire" d="M 830 354 L 740 354"/>
+
+      <!-- 到 Detect 的三路输出 -->
+      <!-- 输出1 -->
+      <path class="wire" d="M 1040 354 L 1040 520"/>
+      <!-- 输出2 -->
+      <path class="wire" d="M 1040 424 L 1040 520"/>
+      <!-- 输出3（来自上层 concat，为示意连到同一点） -->
+      <path class="wire" d="M 740 424 L 980 520"/>
+
+      <!-- Detect Heads（三个“YoloHead”圆柱体） -->
+      <g transform="translate(1000,520)">
+        <!-- head 1 -->
+        <g transform="translate(0,0)">
+          <ellipse cx="50" cy="0" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
+          <rect x="0" y="0" width="100" height="28" fill="url(#cyl)" stroke="#2563eb"></rect>
+          <ellipse cx="50" cy="28" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
+          <text x="50" y="20" text-anchor="middle" class="cap" fill="#0f172a">YoloHead</text>
+        </g>
+        <!-- head 2 -->
+        <g transform="translate(0,50)">
+          <ellipse cx="50" cy="0" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
+          <rect x="0" y="0" width="100" height="28" fill="url(#cyl)" stroke="#2563eb"></rect>
+          <ellipse cx="50" cy="28" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
+          <text x="50" y="20" text-anchor="middle" class="cap" fill="#0f172a">YoloHead</text>
+        </g>
+        <!-- head 3 -->
+        <g transform="translate(0,100)">
+          <ellipse cx="50" cy="0" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
+          <rect x="0" y="0" width="100" height="28" fill="url(#cyl)" stroke="#2563eb"></rect>
+          <ellipse cx="50" cy="28" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
+          <text x="50" y="20" text-anchor="middle" class="cap" fill="#0f172a">YoloHead</text>
+        </g>
+      </g>
+
+      <!-- 左下：轻量化模块示意（模块内部结构） -->
+      <g transform="translate(40,280)">
+        <!-- CBS = Conv2d + BN + SiLU -->
+        <g transform="translate(0,0)">
+          <rect x="0" y="0" width="120" height="38" class="box" fill="#ffffff"/>
+          <text x="60" y="25" text-anchor="middle" class="cap">CBS</text>
+
+          <rect x="140" y="0" width="70" height="38" class="box" fill="#bfdbfe"/>
+          <text x="175" y="25" text-anchor="middle" class="cap-sm">Conv2d</text>
+
+          <rect x="215" y="0" width="60" height="38" class="box" fill="#86efac"/>
+          <text x="245" y="25" text-anchor="middle" class="cap-sm">BN</text>
+
+          <rect x="280" y="0" width="70" height="38" class="box" fill="#93c5fd"/>
+          <text x="315" y="25" text-anchor="middle" class="cap-sm">SiLU</text>
+        </g>
+
+        <!-- Ghost_CBS = Conv2d + DPConv + BN + SiLU -->
+        <g transform="translate(0,60)">
+          <rect x="0" y="0" width="120" height="38" class="box" fill="#fb923c"/>
+          <text x="60" y="25" text-anchor="middle" class="cap">Ghost_CBS</text>
+
+          <rect x="140" y="0" width="70" height="38" class="box" fill="#bfdbfe"/>
+          <text x="175" y="25" text-anchor="middle" class="cap-sm">Conv2d</text>
+
+          <rect x="215" y="0" width="80" height="38" class="box" fill="#fde68a"/>
+          <text x="255" y="25" text-anchor="middle" class="cap-sm">DPConv</text>
+
+          <rect x="300" y="0" width="60" height="38" class="box" fill="#86efac"/>
+          <text x="330" y="25" text-anchor="middle" class="cap-sm">BN</text>
+
+          <rect x="365" y="0" width="70" height="38" class="box" fill="#93c5fd"/>
+          <text x="400" y="25" text-anchor="middle" class="cap-sm">SiLU</text>
+        </g>
+
+        <!-- Ghost_Bottleneck + Concat -->
+        <g transform="translate(0,120)">
+          <rect x="0" y="0" width="150" height="38" class="box" fill="#fef08a"/>
+          <text x="75" y="25" text-anchor="middle" class="cap-sm">Ghost_Bottleneck</text>
+
+          <rect x="160" y="0" width="110" height="38" class="box" fill="#fb923c"/>
+          <text x="215" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS×2</text>
+
+          <rect x="275" y="0" width="100" height="38" class="box" fill="#a7f3d0"/>
+          <text x="325" y="25" text-anchor="middle" class="cap-sm">Concat</text>
+        </g>
+
+        <!-- Ghost_CSP1_x -->
+        <g transform="translate(0,180)">
+          <rect x="0" y="0" width="150" height="38" class="box" fill="#fed7aa"/>
+          <text x="75" y="25" text-anchor="middle" class="cap-sm">Ghost_CSP1_x</text>
+
+          <rect x="160" y="0" width="90" height="38" class="box" fill="#fb923c"/>
+          <text x="205" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS</text>
+
+          <rect x="255" y="0" width="150" height="38" class="box" fill="#fef08a"/>
+          <text x="330" y="25" text-anchor="middle" class="cap-sm">Ghost_Bottleneck×x</text>
+
+          <rect x="410" y="0" width="100" height="38" class="box" fill="#a7f3d0"/>
+          <text x="460" y="25" text-anchor="middle" class="cap-sm">Concat</text>
+
+          <rect x="515" y="0" width="90" height="38" class="box" fill="#fb923c"/>
+          <text x="560" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS</text>
+        </g>
+
+        <!-- Ghost_SPFF -->
+        <g transform="translate(0,240)">
+          <rect x="0" y="0" width="120" height="38" class="box" fill="#ef4444"/>
+          <text x="60" y="25" text-anchor="middle" class="cap-sm" fill="#fff">Ghost_SPFF</text>
+
+          <rect x="130" y="0" width="90" height="38" class="box" fill="#fb923c"/>
+          <text x="175" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS</text>
+
+          <rect x="225" y="0" width="90" height="38" class="box" fill="#fde68a"/>
+          <text x="270" y="25" text-anchor="middle" class="cap-sm">MaxPool</text>
+
+          <rect x="320" y="0" width="90" height="38" class="box" fill="#fde68a"/>
+          <text x="365" y="25" text-anchor="middle" class="cap-sm">MaxPool</text>
+
+          <rect x="415" y="0" width="90" height="38" class="box" fill="#fde68a"/>
+          <text x="460" y="25" text-anchor="middle" class="cap-sm">MaxPool</text>
+
+          <rect x="510" y="0" width="110" height="38" class="box" fill="#a7f3d0"/>
+          <text x="565" y="25" text-anchor="middle" class="cap-sm">Concat</text>
+        </g>
+      </g>
+    </svg>
+  </div>
 </div>
-</div>
+
 <!-- 模型下载区域 -->
 <div class="text-center">
-<div class="inline-flex items-center gap-4">
-<span class="text-lg text-gray-700">下载 yolov8.pt 文件：</span>
-<button id="downloadBtn" class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
-<div class="w-5 h-5 flex items-center justify-center">
-<i class="ri-download-line"></i>
+  <div class="inline-flex items-center gap-4">
+    <span class="text-lg text-white">下载 yolov8.pt 文件：</span>
+
+    <button id="downloadBtn" type="button"
+      class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+      <span class="w-5 h-5 flex items-center justify-center">
+        <!-- 静态下载图标 -->
+        <i id="dlIcon" class="ri-download-line"></i>
+        <!-- 下载中旋转图标（默认隐藏） -->
+        <svg id="dlSpinner" class="hidden animate-spin" viewBox="0 0 24 24" width="18" height="18" fill="none">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity=".25"></circle>
+          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3"></path>
+        </svg>
+      </span>
+      下载
+    </button>
+  </div>
 </div>
-下载
-</button>
-</div>
-</div>
-</div>
-</div>
+
+<script>
+  (function () {
+    const btn = document.getElementById('downloadBtn');
+    const icon = document.getElementById('dlIcon');
+    const spinner = document.getElementById('dlSpinner');
+
+    btn?.addEventListener('click', () => {
+      // UI: 禁用 + 显示旋转图标
+      btn.disabled = true;
+      btn.classList.add('opacity-80', 'cursor-not-allowed');
+      if (icon) icon.classList.add('hidden');
+      if (spinner) spinner.classList.remove('hidden');
+
+      // 触发下载（同源静态资源需确保可被服务器直接访问）
+      const a = document.createElement('a');
+      a.href = './src/yolov8.pt';
+      a.download = 'yolov8.pt';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      // 简单复位 UI（下载会在浏览器继续进行）
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.classList.remove('opacity-80', 'cursor-not-allowed');
+        if (icon) icon.classList.remove('hidden');
+        if (spinner) spinner.classList.add('hidden');
+      }, 800);
+    });
+  })();
+</script>
+
 <!-- 功能模块区域 -->
 <div class="max-w-7xl mx-auto px-6 py-12">
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -134,10 +428,7 @@ class="w-full h-64 object-contain rounded-lg">
 <button class="scenario-repair-btn bg-green-600 text-white px-6 py-3 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap" data-scenario="1">
 修复
 </button>
-<!-- 在每个场景按钮部分添加漏洞触发按钮 -->
-<button class="scenario-trigger-btn bg-red-600 text-white px-6 py-3 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap" data-scenario="1">
-  漏洞触发
-</button>
+
 
 </div>
 </div>
@@ -164,10 +455,7 @@ class="w-full h-64 object-contain rounded-lg">
 <button class="scenario-repair-btn bg-green-600 text-white px-6 py-3 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap" data-scenario="2">
 修复
 </button>
-<!-- 在每个场景按钮部分添加漏洞触发按钮 -->
-<button class="scenario-trigger-btn bg-red-600 text-white px-6 py-3 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap" data-scenario="1">
-  漏洞触发
-</button>
+
 
 </div>
 </div>
@@ -194,10 +482,7 @@ class="w-full h-64 object-contain rounded-lg">
 <button class="scenario-repair-btn bg-green-600 text-white px-6 py-3 !rounded-button hover:bg-green-700 transition-colors whitespace-nowrap" data-scenario="3">
 修复
 </button>
-<!-- 在每个场景按钮部分添加漏洞触发按钮 -->
-<button class="scenario-trigger-btn bg-red-600 text-white px-6 py-3 !rounded-button hover:bg-red-700 transition-colors whitespace-nowrap" data-scenario="1">
-  漏洞触发
-</button>
+
 
 </div>
 </div>
@@ -313,290 +598,251 @@ if (scenario === '1') {
 // 场景1：对抗样本干扰可视化
 content.innerHTML = `
 <div class="space-y-6">
-<div class="bg-blue-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4 text-blue-900">对抗样本干扰可视化</h4>
-<div class="grid grid-cols-2 gap-6">
-<div>
-<p class="text-sm text-gray-600 mb-2">原始图像</p>
-<img src="https://readdy.ai/api/search-image?query=satellite%20remote%20sensing%20image%20of%20urban%20area%20with%20clear%20buildings%20and%20roads%2C%20high%20resolution%20aerial%20view%2C%20clean%20background&width=300&height=200&seq=original_image&orientation=landscape"
-alt="原始图像" class="w-full rounded-lg border">
-</div>
-<div>
-<p class="text-sm text-gray-600 mb-2">对抗样本</p>
-<img src="https://readdy.ai/api/search-image?query=satellite%20remote%20sensing%20image%20with%20subtle%20adversarial%20noise%20perturbations%2C%20slightly%20distorted%20but%20visually%20similar%20to%20original%2C%20technical%20visualization&width=300&height=200&seq=adversarial_image&orientation=landscape"
-alt="对抗样本" class="w-full rounded-lg border">
-</div>
-</div>
-</div>
-<div class="bg-red-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4 text-red-900">攻击效果分析</h4>
-<div class="grid grid-cols-2 gap-6">
-<div>
-<p class="text-sm text-gray-600">扰动强度：<span class="font-semibold">ε = 0.031</span></p>
-<p class="text-sm text-gray-600">检测精度下降：<span class="font-semibold text-red-600">23.5%</span></p>
-</div>
-<div>
-<p class="text-sm text-gray-600">成功攻击率：<span class="font-semibold text-red-600">87.3%</span></p>
-<p class="text-sm text-gray-600">视觉不可察觉性：<span class="font-semibold">SSIM = 0.98</span></p>
-</div>
-</div>
-</div>
-</div>
-`;
-} else {
-// 场景2和3：数据结果
-const data = scenario === '2' ? {
-title: '位翻转攻击检测结果',
-flipCount: '127',
-positions: ['Layer 3, Weight[245,67]', 'Layer 7, Bias[12]', 'Layer 11, Weight[89,156]'],
-accuracyDrop: '15.8%',
-timeIncrease: '2.3ms'
-} : {
-title: '推理延迟攻击检测结果',
-flipCount: '89',
-positions: ['Layer 5, Weight[123,45]', 'Layer 9, Bias[78]', 'Layer 13, Weight[234,89]'],
-accuracyDrop: '12.4%',
-timeIncrease: '45.7ms'
-};
-content.innerHTML = `
-<div class="space-y-6">
-<div class="bg-yellow-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4 text-yellow-900">${data.title}</h4>
-<div class="grid grid-cols-2 gap-6">
-<div>
-<p class="text-sm text-gray-600 mb-2">位翻转次数</p>
-<p class="text-2xl font-bold text-yellow-700">${data.flipCount}</p>
-</div>
-<div>
-<p class="text-sm text-gray-600 mb-2">模型精度下降</p>
-<p class="text-2xl font-bold text-red-600">${data.accuracyDrop}</p>
-</div>
-</div>
-</div>
-<div class="bg-gray-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4">位翻转具体位置</h4>
-<ul class="space-y-2">
-${data.positions.map(pos => `<li class="text-sm text-gray-700 bg-white p-2 rounded border-l-4 border-blue-400">${pos}</li>`).join('')}
-</ul>
-</div>
-<div class="bg-orange-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4 text-orange-900">性能影响分析</h4>
-<div class="grid grid-cols-2 gap-6">
-<div>
-<p class="text-sm text-gray-600">推理时间延长</p>
-<p class="text-xl font-bold text-orange-700">${data.timeIncrease}</p>
-</div>
-<div>
-<p class="text-sm text-gray-600">内存占用增加</p>
-<p class="text-xl font-bold text-orange-700">8.5MB</p>
-</div>
-</div>
-</div>
-</div>
-`;
-}
-modal.classList.remove('hidden');
-}
-function showRepairResult(scenario) {
-const modal = document.getElementById('repairModal');
-const title = document.getElementById('repairModalTitle');
-const content = document.getElementById('repairModalContent');
-function handleRepairedModelDownload() {
-const downloadBtn = document.getElementById('downloadRepairedModelBtn');
-const reportBtn = document.getElementById('downloadReportBtn');
-if (!downloadBtn || !reportBtn) return;
-downloadBtn.addEventListener('click', function() {
-const link = document.createElement('a');
-link.href = '#';
-link.download = 'yolov8_repaired.pt';
-const originalContent = this.innerHTML;
-this.innerHTML = `
-<div class="w-5 h-5 flex items-center justify-center">
-<i class="ri-loader-4-line animate-spin"></i>
-</div>
-下载中...
-`;
-this.disabled = true;
-setTimeout(() => {
-this.innerHTML = originalContent;
-this.disabled = false;
-const notification = document.createElement('div');
-notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
-notification.innerHTML = '修复后模型下载完成！';
-document.body.appendChild(notification);
-setTimeout(() => {
-notification.remove();
-}, 3000);
-}, 2000);
-});
-reportBtn.addEventListener('click', function() {
-const originalContent = this.innerHTML;
-this.innerHTML = `
-<div class="w-5 h-5 flex items-center justify-center">
-<i class="ri-loader-4-line animate-spin"></i>
-</div>
-下载中...
-`;
-this.disabled = true;
-const currentDate = new Date().toISOString().split('T')[0];
-const reportContent = `
-修复报告
-生成日期: ${currentDate}
-1. 修复概述
-- 修复前精度: ${document.querySelector('.text-red-600').textContent}
-- 修复后精度: ${document.querySelector('.text-green-600').textContent}
-- 性能提升: ${document.querySelector('.text-blue-600').textContent}
-2. 修复方法
-${document.querySelector('.border-l-4.border-blue-400').textContent}
-3. 技术细节
-- 模型架构: YOLOv8
-- 优化方案: 对抗训练 + 特征去噪
-- 计算资源消耗: GPU利用率降低15%
-- 内存占用优化: 减少25%
-4. 性能评估
-- 推理速度: 提升30%
-- 准确率: 提升17.7%
-- 鲁棒性: 提升45%
-5. 建议
-- 定期进行模型健康检查
-- 持续监控性能指标
-- 及时更新防御策略
-`;
-const blob = new Blob([reportContent], { type: 'text/plain' });
-const url = window.URL.createObjectURL(blob);
-const link = document.createElement('a');
-link.href = url;
-link.download = `repair_report_${currentDate}.txt`;
-setTimeout(() => {
-link.click();
-window.URL.revokeObjectURL(url);
-this.innerHTML = originalContent;
-this.disabled = false;
-const notification = document.createElement('div');
-notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-fade-in';
-notification.innerHTML = '修复报告下载完成！';
-document.body.appendChild(notification);
-setTimeout(() => {
-notification.remove();
-}, 3000);
-}, 2000);
-});
-}
-setTimeout(() => {
-handleRepairedModelDownload();
-}, 100);
-title.textContent = `场景${scenario}修复结果`;
-const repairData = {
-'1': {
-title: '对抗样本防御修复',
-beforeAccuracy: '76.5%',
-afterAccuracy: '94.2%',
-improvement: '17.7%',
-method: '对抗训练 + 特征去噪'
-},
-'2': {
-title: '位翻转错误修复',
-beforeAccuracy: '84.2%',
-afterAccuracy: '98.7%',
-improvement: '14.5%',
-method: '错误检测纠正 + 冗余校验'
-},
-'3': {
-title: '推理延迟优化修复',
-beforeAccuracy: '87.6%',
-afterAccuracy: '97.3%',
-improvement: '9.7%',
-method: '计算图优化 + 资源调度'
-}
-};
-const data = repairData[scenario];
-content.innerHTML = `
-<div class="space-y-6">
-<div class="bg-green-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4 text-green-900">${data.title}</h4>
-<div class="grid grid-cols-3 gap-6">
-<div class="text-center">
-<p class="text-sm text-gray-600 mb-2">修复前精度</p>
-<p class="text-2xl font-bold text-red-600">${data.beforeAccuracy}</p>
-</div>
-<div class="text-center">
-<p class="text-sm text-gray-600 mb-2">修复后精度</p>
-<p class="text-2xl font-bold text-green-600">${data.afterAccuracy}</p>
-</div>
-<div class="text-center">
-<p class="text-sm text-gray-600 mb-2">性能提升</p>
-<p class="text-2xl font-bold text-blue-600">+${data.improvement}</p>
-</div>
-</div>
-</div>
-<div class="bg-blue-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4 text-blue-900">修复方法</h4>
-<p class="text-gray-700 bg-white p-4 rounded border-l-4 border-blue-400">${data.method}</p>
-</div>
-<div class="bg-gray-50 p-6 rounded-lg">
-<h4 class="text-lg font-semibold mb-4">修复后模型下载</h4>
-<div class="flex gap-4">
-<button id="downloadRepairedModelBtn" class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
-<div class="w-5 h-5 flex items-center justify-center">
-<i class="ri-download-line"></i>
-</div>
-下载修复后模型
-</button>
-<button id="downloadReportBtn" class="bg-gray-600 text-white px-6 py-3 !rounded-button hover:bg-gray-700 transition-colors whitespace-nowrap inline-flex items-center gap-2">
-<div class="w-5 h-5 flex items-center justify-center">
-<i class="ri-file-text-line"></i>
-</div>
-下载修复报告
-</button>
-</div>
-</div>
-</div>
-`;
-modal.classList.remove('hidden');
-}
-});
-</script>
-<!-- 漏洞传播路径可视化 -->
-<div class="max-w-4xl mx-auto px-6 py-12">
-  <div class="rounded-xl p-8 border border-white/10 backdrop-blur-sm bg-white/5">
-    <h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">漏洞传播路径可视化</h2>
-    <div class="flex flex-col items-center gap-6">
-      <div id="networkVisualization" class="w-full h-[400px] relative rounded-xl p-4 border border-white/10 bg-white/5 backdrop-blur-sm">
-        <svg id="networkSvg" class="w-full h-full"></svg>
-      </div>
-      <button id="startVisualization" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
-        <i class="ri-play-line mr-2"></i>开始演示
-      </button>
+
+  <!-- 可视化区 -->
+  <div class="rounded-xl p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h4 class="text-lg font-semibold text-blue-900">对抗样本干扰可视化</h4>
+      <span class="text-[11px] px-2 py-1 rounded-full bg-blue-100 text-blue-800 ring-1 ring-blue-200">Scenario 1</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <figure class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <img src="./figure/场景1_1.png" alt="原始图像"
+             class="w-full h-64 object-contain bg-gray-50">
+        <figcaption class="text-xs text-gray-600 px-3 py-2 border-t">原始图像</figcaption>
+      </figure>
+      <figure class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+        <img src="./figure/场景1_2.png" alt="对抗样本"
+             class="w-full h-64 object-contain bg-gray-50">
+        <figcaption class="text-xs text-gray-600 px-3 py-2 border-t">对抗样本（叠加扰动）</figcaption>
+      </figure>
     </div>
   </div>
+
+  <!-- 指标总览 -->
+  <div class="rounded-xl p-6 bg-white border border-gray-100 shadow-sm">
+    <div class="flex items-center justify-between mb-4">
+      <h4 class="text-lg font-semibold text-gray-900">攻击效果分析</h4>
+      <span class="text-[11px] px-2 py-1 rounded-full bg-red-100 text-red-700 ring-1 ring-red-200">高影响</span>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- ε -->
+      <div class="rounded-lg p-4 border border-gray-100 bg-gray-50">
+        <p class="text-xs text-gray-500 mb-1">平均扰动强度</p>
+        <p class="text-2xl font-bold text-gray-900">ε = 0.167</p>
+        <div class="mt-2 h-1.5 w-full bg-gray-200 rounded">
+          <div class="h-1.5 bg-gray-500 rounded" style="width: 33%"></div>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-1">相对 ε∈[0,0.5] 归一化示意</p>
+      </div>
+
+      <!-- mAP 下降 -->
+      <div class="rounded-lg p-4 border border-gray-100">
+        <p class="text-xs text-gray-500 mb-1">检测精度下降</p>
+        <p class="text-2xl font-bold text-red-600">59.58<span class="text-base text-gray-500 ml-1">%</span></p>
+        <div class="mt-2 h-1.5 w-full bg-red-100 rounded">
+          <div class="h-1.5 bg-red-500 rounded" style="width: 59.58%"></div>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-1">相对未攻击基线</p>
+      </div>
+
+      <!-- 攻击成功率 -->
+      <div class="rounded-lg p-4 border border-gray-100">
+        <p class="text-xs text-gray-500 mb-1">攻击成功率</p>
+        <p class="text-2xl font-bold text-red-600">59.81<span class="text-base text-gray-500 ml-1">%</span></p>
+        <div class="mt-2 h-1.5 w-full bg-red-100 rounded">
+          <div class="h-1.5 bg-red-500 rounded" style="width: 59.81%"></div>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-1">越高代表攻击越有效</p>
+      </div>
+
+      <!-- SSIM -->
+      <div class="rounded-lg p-4 border border-gray-100">
+        <p class="text-xs text-gray-500 mb-1">视觉不可察觉性</p>
+        <p class="text-2xl font-bold text-emerald-600">0.98<span class="text-base text-gray-500 ml-1">SSIM</span></p>
+        <div class="mt-2 h-1.5 w-full bg-emerald-100 rounded">
+          <div class="h-1.5 bg-emerald-500 rounded" style="width: 98%"></div>
+        </div>
+        <p class="text-[11px] text-gray-400 mt-1">数值越接近 1 越不易察觉</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 解释说明 -->
+  <div class="rounded-xl p-4 bg-gray-50 border border-gray-100">
+    <details class="group">
+      <summary class="cursor-pointer list-none flex items-center justify-between">
+        <span class="text-sm font-medium text-gray-800">说明与建议</span>
+        <svg class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor"><path d="M5.23 7.21a.75.75 0 011.06.02L10 11.17l3.71-3.94a.75.75 0 011.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"/></svg>
+      </summary>
+      <div class="mt-3 text-sm text-gray-700 space-y-1">
+        <p>• mAP 下降与攻击成功率均较高，说明对目标检测性能影响显著。</p>
+        <p>• SSIM≈0.98 表明人眼难以察觉扰动，适合展示“隐蔽但有效”的攻击特征。</p>
+        <p>• 建议：在推理前增加输入检测（如频域统计、低秩投影）与自适应降噪。</p>
+      </div>
+    </details>
+  </div>
+
 </div>
+`;
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-//   const svg = document.getElementById('networkSvg');
-//   const width = svg.clientWidth * 0.7;
-//   const height = svg.clientHeight * 0.7; // 保持高度的80%用于可视化
-  const svg = document.getElementById('networkSvg');
-  const width = 850;  // 增加宽度
-  const height = 370; // 增加高度
+} else if (scenario === '2') {
+// 场景2：数据结果（新增两项 mAP 指标）
+const data = {
+  title: '位翻转攻击检测结果',
+  flipCount: 4,
+  timeIncrease: '3.7s',
+  map50Drop: 22.5,     // mAP@.5 下降（百分比数值）
+  map5095Drop: 16.8,   // mAP@.5:.95 下降（百分比数值）
+  positions: [
+    '网络层: backbone.0.conv, 权重索引: [12, 3, 2, 2], 攻击前权重: 0.0390625, 攻击后权重: -0.9609375', 
+    '网络层: backbone.2.conv, 权重索引: [54, 15, 1, 0], 攻击前权重: -0.0703125, 攻击后权重: 0.8671875', 
+    '网络层: head.detect.m.0.conv, 权重索引: [128, 32, 0, 1], 攻击前权重: 0.015625, 攻击后权重: -0.984375',
+    '网络层: head.detect.m.2.conv, 权重索引: [256, 128, 1, 1], 攻击前权重: -0.0078125, 攻击后权重: 0.9921875'
+  ]
+};
 
-  // 设置 SVG 的宽度和高度
+// 影响等级（用于 badge 与配色）
+const impactLevel = data.map50Drop >= 20 ? '高影响' : (data.map50Drop >= 10 ? '中等影响' : '低影响');
+const impactColor = data.map50Drop >= 20 ? 'bg-red-100 text-red-700 ring-red-200' :
+                    data.map50Drop >= 10 ? 'bg-yellow-100 text-yellow-800 ring-yellow-200' :
+                    'bg-emerald-100 text-emerald-700 ring-emerald-200';
+
+// 进度条宽度（按下降百分比可视化）
+const barW50 = Math.min(Math.max(data.map50Drop, 0), 100);
+const barW5095 = Math.min(Math.max(data.map5095Drop, 0), 100);
+
+content.innerHTML = `
+<div class="space-y-6">
+  <!-- 标题区 -->
+  <div class="rounded-xl p-6 bg-gradient-to-r from-yellow-50 via-amber-50 to-orange-50 border border-amber-100">
+    <div class="flex items-center justify-between mb-2">
+      <h4 class="text-lg font-semibold text-amber-900">${data.title}</h4>
+      <span class="text-xs px-2 py-1 rounded-full ring-1 ${impactColor}">${impactLevel}</span>
+    </div>
+    <p class="text-sm text-amber-800/80">对模型精度造成明显影响，建议进行权重校验与推理前完整性检查。</p>
+  </div>
+
+  <!-- 指标总览 -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="rounded-xl p-4 bg-white border border-gray-100 shadow-sm">
+      <p class="text-xs text-gray-500 mb-1">位翻转次数</p>
+      <p class="text-2xl font-bold text-amber-700">${data.flipCount}</p>
+      <p class="text-[11px] text-gray-400 mt-1">检测到的权重翻转事件</p>
+    </div>
+    <div class="rounded-xl p-4 bg-white border border-gray-100 shadow-sm">
+      <p class="text-xs text-gray-500 mb-1">检测耗时</p>
+      <p class="text-2xl font-bold text-amber-700">${data.timeIncrease}</p>
+      <p class="text-[11px] text-gray-400 mt-1">包含定位与比对开销</p>
+    </div>
+    <div class="rounded-xl p-4 bg-white border border-gray-100 shadow-sm">
+      <p class="text-xs text-gray-500 mb-1">mAP@.5 下降</p>
+      <p class="text-2xl font-bold text-red-600">${data.map50Drop}%</p>
+      <div class="mt-2 h-1.5 w-full bg-red-100 rounded">
+        <div class="h-1.5 rounded bg-red-500" style="width:${barW50}%"></div>
+      </div>
+    </div>
+    <div class="rounded-xl p-4 bg-white border border-gray-100 shadow-sm">
+      <p class="text-xs text-gray-500 mb-1">mAP@.5:.95 下降</p>
+      <p class="text-2xl font-bold text-red-600">${data.map5095Drop}%</p>
+      <div class="mt-2 h-1.5 w-full bg-orange-100 rounded">
+        <div class="h-1.5 rounded bg-orange-500" style="width:${barW5095}%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 影响分析 -->
+  <div class="rounded-xl p-6 bg-orange-50 border border-orange-100">
+    <h5 class="text-base font-semibold mb-3 text-orange-900">性能影响分析</h5>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="rounded-lg p-4 bg-white border border-orange-100">
+        <p class="text-xs text-gray-500 mb-1">推理延迟（检测阶段）</p>
+        <p class="text-xl font-bold text-orange-700">${data.timeIncrease}</p>
+        <p class="text-[11px] text-gray-400 mt-1">单次检测额外开销</p>
+      </div>
+      <div class="rounded-lg p-4 bg-white border border-orange-100">
+        <p class="text-xs text-gray-500 mb-1">精度稳定性</p>
+        <p class="text-sm text-gray-700">mAP 降幅在不同 IoU 阈值下均明显</p>
+        <div class="mt-2 flex gap-2">
+          <span class="text-[11px] px-2 py-0.5 rounded-full bg-red-50 text-red-700 ring-1 ring-red-100">@.5 -${data.map50Drop}%</span>
+          <span class="text-[11px] px-2 py-0.5 rounded-full bg-orange-50 text-orange-700 ring-1 ring-orange-100">@.5:.95 -${data.map5095Drop}%</span>
+        </div>
+      </div>
+      <div class="rounded-lg p-4 bg-white border border-orange-100">
+        <p class="text-xs text-gray-500 mb-1">建议</p>
+        <ul class="text-sm text-gray-700 list-disc pl-5 space-y-1">
+          <li>对权重量化位进行奇偶校验/CRC 校验</li>
+          <li>部署推理前快速校验与异常回滚</li>
+          <li>关键层（det/head）添加冗余校验集</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ 新增：漏洞传播路径可视化 -->
+  <div data-viz="vuln-path" class="max-w-4xl mx-auto px-6 py-12">
+    <div class="rounded-xl p-8 border border-white/10 backdrop-blur-sm bg-white/5">
+      <h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">漏洞传播路径可视化</h2>
+      <div class="flex flex-col items-center gap-6">
+        <div class="w-full h-[400px] relative rounded-xl p-4 border border-white/10 bg-white/5 backdrop-blur-sm">
+          <svg data-role="network-svg" class="w-full h-full"></svg>
+        </div>
+        <button data-role="start-btn" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition">
+          <span class="mr-2">▶</span>开始演示
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 位翻转具体位置 -->
+  <div class="rounded-xl p-6 bg-gray-50 border border-gray-100">
+    <div class="flex items-center justify-between mb-3">
+      <h5 class="text-base font-semibold text-gray-900">位翻转具体位置</h5>
+      <span class="text-xs text-gray-500">共 ${data.flipCount} 处</span>
+    </div>
+    <ul class="space-y-2">
+      ${data.positions.map(pos => `
+        <li class="text-sm text-gray-700 bg-white p-3 rounded-lg border border-gray-200 hover:border-blue-300 transition">
+          <span class="inline-block w-2 h-2 rounded-full bg-blue-400 mr-2 align-middle"></span>${pos}
+        </li>
+      `).join('')}
+    </ul>
+  </div>
+</div>
+`;
+
+// 下面放的是渲染场景二漏洞触发流程的代码
+// 2) 在 innerHTML 设置完成后，初始化可视化（不要把脚本写进 innerHTML）
+mountVulnPathViz(content.querySelector('[data-viz="vuln-path"]'));
+
+// 3) 挂载函数：把你给的脚本改成可复用的函数（基于容器元素查询，不用全局 ID）
+function mountVulnPathViz(rootEl) {
+  if (!rootEl) return;
+  const svg = rootEl.querySelector('[data-role="network-svg"]');
+  const btn = rootEl.querySelector('[data-role="start-btn"]');
+  if (!svg || !btn) return;
+
+  // 尺寸（可改为自适应容器宽度）
+  const width = Math.max(720, rootEl.clientWidth - 64);
+  const height = 370;
   svg.setAttribute('width', width);
   svg.setAttribute('height', height);
+  // 清空旧图层（防止重复挂载）
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
 
-const layers = [
-  { nodes: 3, x: width * 0.05 },  // Input Layer
-  { nodes: 4, x: width * 0.15 },
-  { nodes: 5, x: width * 0.25 },
-  { nodes: 6, x: width * 0.35 },
-  { nodes: 6, x: width * 0.45 },
-  { nodes: 6, x: width * 0.55 },   // Hidden Layer 2
-  { nodes: 5, x: width * 0.65 },   // Hidden Layer 3
-  { nodes: 4, x: width * 0.75 },  // Hidden Layer 4
-  { nodes: 2, x: width * 0.85 }   // Output Layer
-];
-
-
+  // 网络层定义
+  const layers = [
+    { nodes: 3, x: width * 0.05 },  // Input
+    { nodes: 4, x: width * 0.15 },
+    { nodes: 5, x: width * 0.25 },
+    { nodes: 6, x: width * 0.35 },
+    { nodes: 6, x: width * 0.45 },
+    { nodes: 6, x: width * 0.55 },
+    { nodes: 5, x: width * 0.65 },
+    { nodes: 4, x: width * 0.75 },
+    { nodes: 2, x: width * 0.85 }   // Output
+  ];
 
   const nodeRadius = 15;
   const normalColor = 'rgba(255, 255, 255, 0.9)';
@@ -614,12 +860,8 @@ const layers = [
 
   function createNode(x, y, layer, index) {
     const g = createSvgElement('g', { transform: `translate(${x},${y})` });
-    const outer = createSvgElement('circle', {
-      r: nodeRadius, fill: normalColor, stroke: '#666', 'stroke-width': 2
-    });
-    const inner = createSvgElement('circle', {
-      r: nodeRadius * 0.7, fill: 'white'
-    });
+    const outer = createSvgElement('circle', { r: nodeRadius, fill: normalColor, stroke: '#666', 'stroke-width': 2 });
+    const inner = createSvgElement('circle', { r: nodeRadius * 0.7, fill: 'white' });
     g.appendChild(outer);
     g.appendChild(inner);
     svg.appendChild(g);
@@ -627,27 +869,25 @@ const layers = [
   }
 
   function createConnection(from, to) {
-    const line = createSvgElement('line', {
-      x1: from.x, y1: from.y, x2: to.x, y2: to.y,
-      stroke: lineColor, 'stroke-width': 1
-    });
+    const line = createSvgElement('line', { x1: from.x, y1: from.y, x2: to.x, y2: to.y, stroke: lineColor, 'stroke-width': 1 });
     svg.insertBefore(line, svg.firstChild);
     return { from, to, line };
   }
 
   function initializeNetwork() {
+    nodes = [];
+    connections = [];
     layers.forEach((layer, layerIndex) => {
       const layerNodes = [];
-      const offsetY = (height - (layer.nodes - 1) * 60) / 2;
+      const spacing = 60;
+      const offsetY = (height - (layer.nodes - 1) * spacing) / 2;
       for (let i = 0; i < layer.nodes; i++) {
-        const node = createNode(layer.x, offsetY + i * 60, layerIndex, i);
+        const node = createNode(layer.x, offsetY + i * spacing, layerIndex, i);
         layerNodes.push(node);
       }
       if (layerIndex > 0) {
         nodes[layerIndex - 1].forEach(from => {
-          layerNodes.forEach(to => {
-            connections.push(createConnection(from, to));
-          });
+          layerNodes.forEach(to => connections.push(createConnection(from, to)));
         });
       }
       nodes.push(layerNodes);
@@ -673,7 +913,7 @@ const layers = [
     function animateLayer() {
       if (currentLayer >= nodes.length) return;
       const current = nodes[currentLayer];
-      const affected = current.filter(() => Math.random() < 0.6);
+      const affected = current.filter(() => Math.random() < 0.6); // 可调命中率
       vulnerableNodes[currentLayer] = affected;
 
       affected.forEach(n => {
@@ -690,26 +930,494 @@ const layers = [
           }
         });
       }
-
       currentLayer++;
       setTimeout(animateLayer, 500);
     }
-
     animateLayer();
   }
 
+  // 初始化与事件
   initializeNetwork();
-
-  document.getElementById('startVisualization').addEventListener('click', function () {
-    this.disabled = true;
-    this.innerHTML = `<i class="ri-loader-4-line animate-spin mr-2"></i>演示中...`;
+  btn.addEventListener('click', function () {
+    btn.disabled = true;
+    const old = btn.innerHTML;
+    btn.innerHTML = `<span class="animate-pulse mr-2">⏳</span>演示中...`;
     highlightVulnerabilityPath();
     setTimeout(() => {
-      this.disabled = false;
-      this.innerHTML = `<i class="ri-play-line mr-2"></i>开始演示`;
+      btn.disabled = false;
+      btn.innerHTML = old;
     }, nodes.length * 500 + 500);
   });
+
+  // 可选：窗口尺寸变化时自适应（简单重绘）
+  const onResize = () => {
+    // 重新设置尺寸并重绘
+    const w = Math.max(720, rootEl.clientWidth - 64);
+    svg.setAttribute('width', w);
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    initializeNetwork();
+  };
+  // 可根据需要启用
+  // window.addEventListener('resize', onResize);
+}
+
+} else if (scenario === '3') {
+content.innerHTML = `
+<div class="space-y-6">
+  <!-- 可视化 -->
+  <div class="bg-blue-50 p-6 rounded-xl border border-blue-100">
+    <h4 class="text-lg font-semibold mb-4 text-blue-900">延迟攻击样本可视化</h4>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <p class="text-sm text-gray-600 mb-2">原始图像</p>
+        <img src="./figure/场景3_1.jpg" alt="原始图像" class="w-full rounded-lg border border-blue-100">
+      </div>
+      <div>
+        <p class="text-sm text-gray-600 mb-2">叠加 UAP 图像</p>
+        <img src="./figure/场景3_2.jpg" alt="叠加 UAP 的对抗样本图像" class="w-full rounded-lg border border-blue-100">
+      </div>
+    </div>
+  </div>
+
+  <!-- 攻击效果分析（指标总览） -->
+  <div class="bg-red-50 p-6 rounded-xl border border-red-100">
+    <div class="flex items-center justify-between mb-4">
+      <h4 class="text-lg font-semibold text-red-900">攻击效果分析</h4>
+      <span class="text-xs px-2 py-1 rounded-full bg-red-100 text-red-700 ring-1 ring-red-200">高影响</span>
+    </div>
+
+    <!-- 指标卡片 -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="rounded-lg p-4 bg-white border border-gray-100 shadow-sm">
+        <p class="text-xs text-gray-500 mb-1">原推理时延</p>
+        <p class="text-2xl font-bold text-gray-900">10.14<span class="text-base font-medium text-gray-500 ml-1">ms</span></p>
+        <p class="text-[11px] text-gray-400 mt-1">基线（无 Overload）</p>
+      </div>
+      <div class="rounded-lg p-4 bg-white border border-gray-100 shadow-sm">
+        <p class="text-xs text-gray-500 mb-1">Overload 后时延</p>
+        <p class="text-2xl font-bold text-red-600">42.89<span class="text-base font-medium text-gray-500 ml-1">ms</span></p>
+        <p class="text-[11px] text-gray-400 mt-1">开启 Overload 条件</p>
+      </div>
+      <div class="rounded-lg p-4 bg-white border border-gray-100 shadow-sm">
+        <p class="text-xs text-gray-500 mb-1">延时增幅</p>
+        <p class="text-2xl font-bold text-red-600">4.23<span class="text-base font-medium text-gray-500 ml-1">×</span></p>
+        <p class="text-[11px] text-gray-400 mt-1">相对基线倍数</p>
+      </div>
+      <div class="rounded-lg p-4 bg-white border border-gray-100 shadow-sm">
+        <p class="text-xs text-gray-500 mb-1">ADR 攻击检测率</p>
+        <p class="text-2xl font-bold text-emerald-600">91.3<span class="text-base font-medium text-gray-500 ml-1">%</span></p>
+        <p class="text-[11px] text-gray-400 mt-1">高检测命中率</p>
+      </div>
+    </div>
+
+    <!-- 延迟对比条形图（纯 CSS 条形） -->
+    <div class="mt-6 rounded-lg p-4 bg-white border border-red-100">
+      <p class="text-sm font-medium text-gray-700 mb-3">推理时延对比</p>
+      <div class="space-y-3">
+        <div>
+          <div class="flex justify-between text-xs text-gray-500 mb-1">
+            <span>基线</span><span>10.14 ms</span>
+          </div>
+          <div class="h-2 w-full bg-gray-100 rounded">
+            <div class="h-2 bg-gray-400 rounded" style="width: 19%;"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs text-gray-500 mb-1">
+            <span>Overload</span><span>42.89 ms</span>
+          </div>
+          <div class="h-2 w-full bg-red-100 rounded">
+            <div class="h-2 bg-red-500 rounded" style="width: 80%;"></div>
+          </div>
+        </div>
+      </div>
+      <p class="mt-2 text-[11px] text-gray-400">注：条形宽度按相对比例绘制（约 1 : 4.23）。</p>
+    </div>
+
+
+    </div>
+  </div>
+</div>
+`;
+
+}
+modal.classList.remove('hidden');
+}
+function showRepairResult(scenario) {
+  const modal = document.getElementById('repairModal');
+  const title = document.getElementById('repairModalTitle');
+  const content = document.getElementById('repairModalContent');
+
+  if (String(scenario) === '1') {
+    // 场景1：对抗样本防御修复（完全独立）
+    title.textContent = '场景1修复结果';
+
+    content.innerHTML = `
+<div class="space-y-6">
+  <div class="bg-green-50 p-6 rounded-lg">
+    <h4 class="text-lg font-semibold mb-4 text-green-900">对抗样本防御修复</h4>
+    <div class="grid grid-cols-3 gap-6">
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">修复前精度</p>
+        <p class="text-2xl font-bold text-red-600">33.47%</p>
+      </div>
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">修复后精度</p>
+        <p class="text-2xl font-bold text-green-600">99.18%</p>
+      </div>
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">性能提升</p>
+        <p class="text-2xl font-bold text-blue-600">+65.71%</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-blue-50 p-6 rounded-lg">
+    <h4 class="text-lg font-semibold mb-4 text-blue-900">修复方法</h4>
+    <p class="text-gray-700 bg-white p-4 rounded border-l-4 border-blue-400 mb-3">对抗性训练微调</p>
+  </div>
+
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <h4 class="text-lg font-semibold mb-4">修复后模型下载</h4>
+    <div class="flex gap-4">
+      <button id="downloadRepairedModelBtn" class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+        <span class="w-5 h-5 flex items-center justify-center"><i class="ri-download-line"></i></span>
+        下载修复后模型
+      </button>
+      <button id="downloadReportBtn" class="bg-gray-600 text-white px-6 py-3 !rounded-button hover:bg-gray-700 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+        <span class="w-5 h-5 flex items-center justify-center"><i class="ri-file-text-line"></i></span>
+        下载修复报告
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+    // 场景1：事件绑定（独立）
+    const btnModel1 = content.querySelector('#downloadRepairedModelBtn');
+    if (btnModel1) {
+      btnModel1.addEventListener('click', function () {
+        const original = this.innerHTML;
+        this.disabled = true;
+        this.classList.add('opacity-80', 'cursor-not-allowed');
+        this.innerHTML = `<span class="w-5 h-5 flex items-center justify-center"><i class="ri-loader-4-line animate-spin"></i></span>下载中...`;
+        const a = document.createElement('a');
+        a.href = './src/yolov8.pt';
+        a.download = 'yolov8.pt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => {
+          this.disabled = false;
+          this.classList.remove('opacity-80', 'cursor-not-allowed');
+          this.innerHTML = original;
+        }, 800);
+      });
+    }
+
+    const btnReport1 = content.querySelector('#downloadReportBtn');
+    if (btnReport1) {
+      btnReport1.addEventListener('click', function () {
+        const original = this.innerHTML;
+        this.disabled = true;
+        this.classList.add('opacity-80', 'cursor-not-allowed');
+        this.innerHTML = `<span class="w-5 h-5 flex items-center justify-center"><i class="ri-loader-4-line animate-spin"></i></span>生成中...`;
+        const currentDate = new Date().toISOString().split('T')[0];
+        const report = `修复报告（场景1：对抗样本防御修复）
+生成日期: ${currentDate}
+
+一、修复概述
+- 修复前精度: 33.47%
+- 修复后精度: 99.18%
+- 性能提升: 65.71%
+
+二、修复方法
+- 主方法: 对抗性训练微调
+
+`;
+        const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `repair_report_s1_${currentDate}.txt`;
+        document.body.appendChild(a);
+        setTimeout(() => {
+          a.click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+          this.disabled = false;
+          this.classList.remove('opacity-80', 'cursor-not-allowed');
+          this.innerHTML = original;
+        }, 500);
+      });
+    }
+
+    modal.classList.remove('hidden');
+    return;
+  }
+
+  if (String(scenario) === '2') {
+  // 场景2：位翻转错误修复（仅展示给定信息）
+  title.textContent = '场景2修复结果';
+
+  content.innerHTML = `
+<div class="space-y-6">
+
+  <!-- 标题 -->
+  <div class="rounded-xl p-6 bg-amber-50 border border-amber-100">
+    <h4 class="text-lg font-semibold text-amber-900">位翻转错误修复</h4>
+  </div>
+
+  <!-- 抗扰阈值与倍数提升 -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="rounded-xl p-4 bg-white border border-gray-100">
+      <p class="text-xs text-gray-500 mb-1">修复前抗扰阈值位数</p>
+      <p class="text-2xl font-bold text-gray-900">14</p>
+    </div>
+    <div class="rounded-xl p-4 bg-white border border-gray-100">
+      <p class="text-xs text-gray-500 mb-1">修复后抗扰阈值位数</p>
+      <p class="text-2xl font-bold text-gray-900">317</p>
+    </div>
+    <div class="rounded-xl p-4 bg-white border border-gray-100">
+      <p class="text-xs text-gray-500 mb-1">抗绕倍数提升</p>
+      <p class="text-2xl font-bold text-emerald-600">22.64</p>
+    </div>
+  </div>
+
+  <!-- mAP@.5 -->
+  <div class="rounded-xl p-4 bg-white border border-gray-100">
+    <p class="text-sm font-medium text-gray-900 mb-2">模型 mAP@.5</p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div>
+        <p class="text-xs text-gray-500 mb-1">修复前</p>
+        <p class="text-xl font-bold text-gray-900">70.7%</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">修复后</p>
+        <p class="text-xl font-bold text-gray-900">70.7%</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">性能变化</p>
+        <p class="text-xl font-bold text-gray-900">-0.0%</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- mAP@.5:.95 -->
+  <div class="rounded-xl p-4 bg-white border border-gray-100">
+    <p class="text-sm font-medium text-gray-900 mb-2">模型 mAP@.5:.95</p>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div>
+        <p class="text-xs text-gray-500 mb-1">修复前</p>
+        <p class="text-xl font-bold text-gray-900">46.0%</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">修复后</p>
+        <p class="text-xl font-bold text-gray-900">45.9%</p>
+      </div>
+      <div>
+        <p class="text-xs text-gray-500 mb-1">性能变化</p>
+        <p class="text-xl font-bold text-gray-900">-0.1%</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <h4 class="text-lg font-semibold mb-4">修复后模型下载</h4>
+    <div class="flex gap-4">
+      <button id="downloadRepairedModelBtn" class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+        <span class="w-5 h-5 flex items-center justify-center"><i class="ri-download-line"></i></span>
+        下载修复后模型
+      </button>
+      <button id="downloadReportBtn" class="bg-gray-600 text-white px-6 py-3 !rounded-button hover:bg-gray-700 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+        <span class="w-5 h-5 flex items-center justify-center"><i class="ri-file-text-line"></i></span>
+        下载修复报告
+      </button>
+    </div>
+  </div>
+</div>
+`;
+// 场景2：事件绑定（独立）
+const btnModel2 = content.querySelector('#downloadRepairedModelBtn');
+if (btnModel2) {
+  btnModel2.addEventListener('click', function () {
+    const original = this.innerHTML;
+    this.disabled = true;
+    this.classList.add('opacity-80', 'cursor-not-allowed');
+    this.innerHTML = `<span class="w-5 h-5 flex items-center justify-center"><i class="ri-loader-4-line animate-spin"></i></span>下载中...`;
+    const a = document.createElement('a');
+    a.href = './src/yolov8.pt';
+    a.download = 'yolov8.pt';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => {
+      this.disabled = false;
+      this.classList.remove('opacity-80', 'cursor-not-allowed');
+      this.innerHTML = original;
+    }, 800);
+  });
+}
+
+const btnReport2 = content.querySelector('#downloadReportBtn');
+if (btnReport2) {
+  btnReport2.addEventListener('click', function () {
+    const original = this.innerHTML;
+    this.disabled = true;
+    this.classList.add('opacity-80', 'cursor-not-allowed');
+    this.innerHTML = `<span class="w-5 h-5 flex items-center justify-center"><i class="ri-loader-4-line animate-spin"></i></span>生成中...`;
+    const currentDate = new Date().toISOString().split('T')[0];
+    const report = `修复报告（场景2：位翻转错误修复）
+生成日期: ${currentDate}
+
+一、修复概述
+- 修复前抗扰阈值位数: 14
+- 修复后抗扰阈值位数: 317
+- 抗绕倍数提升: 22.64
+- 修复前 mAP@.5: 70.7%
+- 修复后 mAP@.5: 70.7%
+- 性能变化: -0.0%
+- 修复前 mAP@.5:.95: 46.0%
+- 修复后 mAP@.5:.95: 45.9%
+- 性能变化: -0.1%
+
+二、修复方法
+- 主方法: 错误检测纠正 + 冗余校验
+
+`;
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `repair_report_s2_${currentDate}.txt`;
+    document.body.appendChild(a);
+    setTimeout(() => {
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove();
+      this.disabled = false;
+      this.classList.remove('opacity-80', 'cursor-not-allowed');
+      this.innerHTML = original;
+    }, 500);
+  });
+}
+
+  modal.classList.remove('hidden');
+  return;
+}
+
+  if (String(scenario) === '3') {
+    // 场景3：推理延迟优化修复（完全独立）
+    title.textContent = '场景3修复结果';
+
+    content.innerHTML = `
+<div class="space-y-6">
+  <div class="bg-green-50 p-6 rounded-lg">
+    <h4 class="text-lg font-semibold mb-4 text-green-900">推理延迟优化修复</h4>
+    <div class="grid grid-cols-3 gap-6">
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">修复前延时增幅</p>
+        <p class="text-2xl font-bold text-red-600">4.23✖</p>
+      </div>
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">修复后延时增幅</p>
+        <p class="text-2xl font-bold text-green-600">1.94✖</p>
+      </div>
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-2">性能提升</p>
+        <p class="text-2xl font-bold text-blue-600">+228.5%</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-blue-50 p-6 rounded-lg">
+    <h4 class="text-lg font-semibold mb-4 text-blue-900">修复方法</h4>
+    <p class="text-gray-700 bg-white p-4 rounded border-l-4 border-blue-400 mb-3">背景感知对抗训练</p>
+  </div>
+
+  <div class="bg-gray-50 p-6 rounded-lg">
+    <h4 class="text-lg font-semibold mb-4">修复后模型下载</h4>
+    <div class="flex gap-4">
+      <button id="downloadRepairedModelBtn" class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+        <span class="w-5 h-5 flex items-center justify-center"><i class="ri-download-line"></i></span>
+        下载修复后模型
+      </button>
+      <button id="downloadReportBtn" class="bg-gray-600 text-white px-6 py-3 !rounded-button hover:bg-gray-700 transition-colors whitespace-nowrap inline-flex items-center gap-2">
+        <span class="w-5 h-5 flex items-center justify-center"><i class="ri-file-text-line"></i></span>
+        下载修复报告
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+    // 场景3：事件绑定（独立）
+    const btnModel3 = content.querySelector('#downloadRepairedModelBtn');
+    if (btnModel3) {
+      btnModel3.addEventListener('click', function () {
+        const original = this.innerHTML;
+        this.disabled = true;
+        this.classList.add('opacity-80', 'cursor-not-allowed');
+        this.innerHTML = `<span class="w-5 h-5 flex items-center justify-center"><i class="ri-loader-4-line animate-spin"></i></span>下载中...`;
+        const a = document.createElement('a');
+        a.href = './src/yolov8.pt';
+        a.download = 'yolov8.pt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => {
+          this.disabled = false;
+          this.classList.remove('opacity-80', 'cursor-not-allowed');
+          this.innerHTML = original;
+        }, 800);
+      });
+    }
+
+    const btnReport3 = content.querySelector('#downloadReportBtn');
+    if (btnReport3) {
+      btnReport3.addEventListener('click', function () {
+        const original = this.innerHTML;
+        this.disabled = true;
+        this.classList.add('opacity-80', 'cursor-not-allowed');
+        this.innerHTML = `<span class="w-5 h-5 flex items-center justify-center"><i class="ri-loader-4-line animate-spin"></i></span>生成中...`;
+        const currentDate = new Date().toISOString().split('T')[0];
+        const report = `修复报告（场景3：推理延迟优化修复）
+生成日期: ${currentDate}
+
+一、修复概述
+- 修复前延时增幅: 4.23✖
+- 修复后延时增幅: 1.94✖
+- 性能提升: 228.5%
+
+二、修复方法
+- 修复主方法: 背景感知对抗训练
+
+`;
+        const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `repair_report_s3_${currentDate}.txt`;
+        document.body.appendChild(a);
+        setTimeout(() => {
+          a.click();
+          window.URL.revokeObjectURL(url);
+          a.remove();
+          this.disabled = false;
+          this.classList.remove('opacity-80', 'cursor-not-allowed');
+          this.innerHTML = original;
+        }, 500);
+      });
+    }
+
+    modal.classList.remove('hidden');
+    return;
+  }
+}
+
 });
 </script>
+
 </body>
 </html>
