@@ -85,270 +85,15 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 </h1>
 <div class="absolute -top-20 -left-20 w-40 h-40 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
 <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-<!-- YOLO模型流程图（Inline SVG 版本） -->
+<!-- YOLO模型流程图区域 -->
 <div class="tech-card tech-border rounded-xl p-8 mb-8 tech-glow">
-  <h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">YOLO 模型流程图</h2>
-
-  <div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
-    <svg viewBox="0 0 1200 660" width="100%" height="100%" role="img" aria-label="YOLO 模型流程图（Backbone、Neck、Detect 与轻量化模块）">
-      <defs>
-        <!-- 箭头 -->
-        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-          <path d="M0,0 L10,5 L0,10 z" fill="#64748b"></path>
-        </marker>
-        <!-- 通用样式 -->
-        <style>
-          .box { rx:10; ry:10; stroke:#64748b; stroke-width:1.2; }
-          .cap { font: 600 14px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto; fill:#0f172a; }
-          .cap-sm { font: 600 12px/1.2 ui-sans-serif, system-ui; fill:#0f172a; }
-          .wire { stroke:#64748b; stroke-width:1.6; fill:none; marker-end:url(#arrow); }
-          .section { stroke-dasharray:6 6; stroke:#94a3b8; fill:rgba(148,163,184,0.05); }
-          .note { font: 12px ui-sans-serif, system-ui; fill:#334155; }
-        </style>
-        <!-- 颜色 -->
-        <linearGradient id="cyl" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#93c5fd"/>
-          <stop offset="100%" stop-color="#60a5fa"/>
-        </linearGradient>
-      </defs>
-
-      <!-- 区域框：Backbone / Neck / Detect / Lightweight -->
-      <rect x="20"  y="20"  width="1160" height="200" class="section"/>
-      <text x="1120" y="40" class="note">Backbone 主干网络</text>
-
-      <rect x="620" y="235" width="560" height="240" class="section"/>
-      <text x="1100" y="255" class="note">Neck 颈部网络</text>
-
-      <rect x="980" y="490" width="200" height="140" class="section"/>
-      <text x="1125" y="510" class="note">Detect</text>
-
-      <rect x="20"  y="235" width="570" height="395" class="section"/>
-      <text x="420" y="255" class="note" text-anchor="end">轻量化模块 Lightweight modules</text>
-
-      <!-- 左上：Input -->
-      <g transform="translate(30,70)">
-        <rect x="0" y="0" width="80" height="50" rx="8" ry="8" fill="#e2e8f0" class="box"></rect>
-        <text x="40" y="22" text-anchor="middle" class="cap-sm">输入</text>
-        <text x="40" y="40" text-anchor="middle" class="cap-sm">Input</text>
-      </g>
-
-      <!-- Backbone 顶部流水线（示意关键模块序列） -->
-      <!-- 块颜色：CBS=白、ECA=浅蓝、Ghost_CBS=橙、Ghost_CSP1_x=桃色、Ghost_SPFF=红 -->
-      <g transform="translate(130,60)">
-        <!-- CBS -->
-        <rect x="0" y="0" width="90" height="70" class="box" fill="#ffffff"/>
-        <text x="45" y="40" text-anchor="middle" class="cap">CBS</text>
-
-        <!-- ECA -->
-        <rect x="100" y="0" width="90" height="70" class="box" fill="#bfdbfe"/>
-        <text x="145" y="40" text-anchor="middle" class="cap">ECA</text>
-
-        <!-- Ghost_CBS -->
-        <rect x="200" y="0" width="120" height="70" class="box" fill="#fb923c"/>
-        <text x="260" y="40" text-anchor="middle" class="cap">Ghost_CBS</text>
-
-        <!-- Ghost_CSP1_1 -->
-        <rect x="330" y="0" width="140" height="70" class="box" fill="#fed7aa"/>
-        <text x="400" y="40" text-anchor="middle" class="cap">Ghost_CSP1_1</text>
-
-        <!-- ECA -->
-        <rect x="480" y="0" width="90" height="70" class="box" fill="#bfdbfe"/>
-        <text x="525" y="40" text-anchor="middle" class="cap">ECA</text>
-
-        <!-- Ghost_CBS -->
-        <rect x="580" y="0" width="120" height="70" class="box" fill="#fb923c"/>
-        <text x="640" y="40" text-anchor="middle" class="cap">Ghost_CBS</text>
-
-        <!-- Ghost_CSP1_2 -->
-        <rect x="710" y="0" width="140" height="70" class="box" fill="#fed7aa"/>
-        <text x="780" y="40" text-anchor="middle" class="cap">Ghost_CSP1_2</text>
-
-        <!-- ECA -->
-        <rect x="860" y="0" width="90" height="70" class="box" fill="#bfdbfe"/>
-        <text x="905" y="40" text-anchor="middle" class="cap">ECA</text>
-
-        <!-- Ghost_SPFF -->
-        <rect x="960" y="0" width="120" height="70" class="box" fill="#ef4444"/>
-        <text x="1020" y="40" text-anchor="middle" class="cap" fill="#fff">Ghost_SPFF</text>
-      </g>
-
-      <!-- Backbone 产出至 Neck 的三路特征 -->
-      <!-- taps at x positions corresponding to CSP1_1 / CSP1_2 / SPFF -->
-      <path class="wire" d="M 530 130 L 530 260"/>
-      <path class="wire" d="M 810 130 L 810 260"/>
-      <path class="wire" d="M 1080 130 L 1080 260"/>
-
-      <!-- 右侧 Neck：自顶向下 FPN/PAN 式结构（Concat + Upsample + Ghost_CBS + Ghost_CSP2_1） -->
-      <!-- 顶部 concat -->
-      <g transform="translate(650,260)">
-        <rect x="0" y="0" width="180" height="48" class="box" fill="#a7f3d0"/>
-        <text x="90" y="30" text-anchor="middle" class="cap">Concat</text>
-      </g>
-      <path class="wire" d="M 530 260 L 650 284"/>
-      <path class="wire" d="M 810 260 L 650 284"/>
-      <path class="wire" d="M 1080 260 L 650 284"/>
-
-      <!-- Ghost_CBS + Upsample -->
-      <g transform="translate(860,260)">
-        <rect x="0" y="0" width="140" height="48" class="box" fill="#fb923c"/>
-        <text x="70" y="30" text-anchor="middle" class="cap">Ghost_CBS</text>
-      </g>
-      <g transform="translate(1010,260)">
-        <rect x="0" y="0" width="140" height="48" class="box" fill="#cbd5e1"/>
-        <text x="70" y="30" text-anchor="middle" class="cap">Upsample2D</text>
-      </g>
-      <path class="wire" d="M 830 284 L 860 284"/>
-      <path class="wire" d="M 1000 284 L 1010 284"/>
-
-      <!-- 第二层 concat -->
-      <g transform="translate(650,330)">
-        <rect x="0" y="0" width="180" height="48" class="box" fill="#a7f3d0"/>
-        <text x="90" y="30" text-anchor="middle" class="cap">Concat</text>
-      </g>
-      <path class="wire" d="M 1080 284 L 830 360"/>
-      <path class="wire" d="M 650 284 L 650 354"/>
-
-      <!-- 下行：Ghost_CSP2_1 + 出口到 Detect（3 路） -->
-      <g transform="translate(860,330)">
-        <rect x="0" y="0" width="180" height="48" class="box" fill="#fde68a"/>
-        <text x="90" y="30" text-anchor="middle" class="cap">Ghost_CSP2_1</text>
-      </g>
-      <path class="wire" d="M 830 354 L 860 354"/>
-      <!-- 再次下采样路径（示意） -->
-      <g transform="translate(650,400)">
-        <rect x="0" y="0" width="180" height="48" class="box" fill="#a7f3d0"/>
-        <text x="90" y="30" text-anchor="middle" class="cap">Concat</text>
-      </g>
-      <g transform="translate(860,400)">
-        <rect x="0" y="0" width="180" height="48" class="box" fill="#fde68a"/>
-        <text x="90" y="30" text-anchor="middle" class="cap">Ghost_CSP2_1</text>
-      </g>
-      <path class="wire" d="M 740 378 L 740 424"/>
-      <path class="wire" d="M 830 354 L 740 354"/>
-
-      <!-- 到 Detect 的三路输出 -->
-      <!-- 输出1 -->
-      <path class="wire" d="M 1040 354 L 1040 520"/>
-      <!-- 输出2 -->
-      <path class="wire" d="M 1040 424 L 1040 520"/>
-      <!-- 输出3（来自上层 concat，为示意连到同一点） -->
-      <path class="wire" d="M 740 424 L 980 520"/>
-
-      <!-- Detect Heads（三个“YoloHead”圆柱体） -->
-      <g transform="translate(1000,520)">
-        <!-- head 1 -->
-        <g transform="translate(0,0)">
-          <ellipse cx="50" cy="0" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
-          <rect x="0" y="0" width="100" height="28" fill="url(#cyl)" stroke="#2563eb"></rect>
-          <ellipse cx="50" cy="28" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
-          <text x="50" y="20" text-anchor="middle" class="cap" fill="#0f172a">YoloHead</text>
-        </g>
-        <!-- head 2 -->
-        <g transform="translate(0,50)">
-          <ellipse cx="50" cy="0" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
-          <rect x="0" y="0" width="100" height="28" fill="url(#cyl)" stroke="#2563eb"></rect>
-          <ellipse cx="50" cy="28" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
-          <text x="50" y="20" text-anchor="middle" class="cap" fill="#0f172a">YoloHead</text>
-        </g>
-        <!-- head 3 -->
-        <g transform="translate(0,100)">
-          <ellipse cx="50" cy="0" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
-          <rect x="0" y="0" width="100" height="28" fill="url(#cyl)" stroke="#2563eb"></rect>
-          <ellipse cx="50" cy="28" rx="50" ry="12" fill="url(#cyl)" stroke="#2563eb"/>
-          <text x="50" y="20" text-anchor="middle" class="cap" fill="#0f172a">YoloHead</text>
-        </g>
-      </g>
-
-      <!-- 左下：轻量化模块示意（模块内部结构） -->
-      <g transform="translate(40,280)">
-        <!-- CBS = Conv2d + BN + SiLU -->
-        <g transform="translate(0,0)">
-          <rect x="0" y="0" width="120" height="38" class="box" fill="#ffffff"/>
-          <text x="60" y="25" text-anchor="middle" class="cap">CBS</text>
-
-          <rect x="140" y="0" width="70" height="38" class="box" fill="#bfdbfe"/>
-          <text x="175" y="25" text-anchor="middle" class="cap-sm">Conv2d</text>
-
-          <rect x="215" y="0" width="60" height="38" class="box" fill="#86efac"/>
-          <text x="245" y="25" text-anchor="middle" class="cap-sm">BN</text>
-
-          <rect x="280" y="0" width="70" height="38" class="box" fill="#93c5fd"/>
-          <text x="315" y="25" text-anchor="middle" class="cap-sm">SiLU</text>
-        </g>
-
-        <!-- Ghost_CBS = Conv2d + DPConv + BN + SiLU -->
-        <g transform="translate(0,60)">
-          <rect x="0" y="0" width="120" height="38" class="box" fill="#fb923c"/>
-          <text x="60" y="25" text-anchor="middle" class="cap">Ghost_CBS</text>
-
-          <rect x="140" y="0" width="70" height="38" class="box" fill="#bfdbfe"/>
-          <text x="175" y="25" text-anchor="middle" class="cap-sm">Conv2d</text>
-
-          <rect x="215" y="0" width="80" height="38" class="box" fill="#fde68a"/>
-          <text x="255" y="25" text-anchor="middle" class="cap-sm">DPConv</text>
-
-          <rect x="300" y="0" width="60" height="38" class="box" fill="#86efac"/>
-          <text x="330" y="25" text-anchor="middle" class="cap-sm">BN</text>
-
-          <rect x="365" y="0" width="70" height="38" class="box" fill="#93c5fd"/>
-          <text x="400" y="25" text-anchor="middle" class="cap-sm">SiLU</text>
-        </g>
-
-        <!-- Ghost_Bottleneck + Concat -->
-        <g transform="translate(0,120)">
-          <rect x="0" y="0" width="150" height="38" class="box" fill="#fef08a"/>
-          <text x="75" y="25" text-anchor="middle" class="cap-sm">Ghost_Bottleneck</text>
-
-          <rect x="160" y="0" width="110" height="38" class="box" fill="#fb923c"/>
-          <text x="215" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS×2</text>
-
-          <rect x="275" y="0" width="100" height="38" class="box" fill="#a7f3d0"/>
-          <text x="325" y="25" text-anchor="middle" class="cap-sm">Concat</text>
-        </g>
-
-        <!-- Ghost_CSP1_x -->
-        <g transform="translate(0,180)">
-          <rect x="0" y="0" width="150" height="38" class="box" fill="#fed7aa"/>
-          <text x="75" y="25" text-anchor="middle" class="cap-sm">Ghost_CSP1_x</text>
-
-          <rect x="160" y="0" width="90" height="38" class="box" fill="#fb923c"/>
-          <text x="205" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS</text>
-
-          <rect x="255" y="0" width="150" height="38" class="box" fill="#fef08a"/>
-          <text x="330" y="25" text-anchor="middle" class="cap-sm">Ghost_Bottleneck×x</text>
-
-          <rect x="410" y="0" width="100" height="38" class="box" fill="#a7f3d0"/>
-          <text x="460" y="25" text-anchor="middle" class="cap-sm">Concat</text>
-
-          <rect x="515" y="0" width="90" height="38" class="box" fill="#fb923c"/>
-          <text x="560" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS</text>
-        </g>
-
-        <!-- Ghost_SPFF -->
-        <g transform="translate(0,240)">
-          <rect x="0" y="0" width="120" height="38" class="box" fill="#ef4444"/>
-          <text x="60" y="25" text-anchor="middle" class="cap-sm" fill="#fff">Ghost_SPFF</text>
-
-          <rect x="130" y="0" width="90" height="38" class="box" fill="#fb923c"/>
-          <text x="175" y="25" text-anchor="middle" class="cap-sm">Ghost_CBS</text>
-
-          <rect x="225" y="0" width="90" height="38" class="box" fill="#fde68a"/>
-          <text x="270" y="25" text-anchor="middle" class="cap-sm">MaxPool</text>
-
-          <rect x="320" y="0" width="90" height="38" class="box" fill="#fde68a"/>
-          <text x="365" y="25" text-anchor="middle" class="cap-sm">MaxPool</text>
-
-          <rect x="415" y="0" width="90" height="38" class="box" fill="#fde68a"/>
-          <text x="460" y="25" text-anchor="middle" class="cap-sm">MaxPool</text>
-
-          <rect x="510" y="0" width="110" height="38" class="box" fill="#a7f3d0"/>
-          <text x="565" y="25" text-anchor="middle" class="cap-sm">Concat</text>
-        </g>
-      </g>
-    </svg>
-  </div>
+<h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">YOLO 模型流程图</h2>
+<div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
+<img src="./figure/系统流程图.jpg"
+alt="YOLO模型流程图"
+class="w-full h-64 object-contain rounded-lg">
 </div>
-
+</div>
 <!-- 模型下载区域 -->
 <div class="text-center">
   <div class="inline-flex items-center gap-4">
@@ -412,7 +157,7 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 <i class="ri-radar-line text-blue-400"></i>
 </div>
 </div>
-<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">卫星图像对抗样本检测</h3>
+<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">卫星目标误判漏洞对抗</h3>
 <div class="mb-8">
 <p class="text-gray-300 leading-relaxed mb-4">
 对抗样本攻击检测算法，通过在原始图像中添加微小的扰动，生成能够欺骗深度学习模型的对抗样本。
@@ -439,13 +184,13 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 <i class="ri-shield-flash-line text-blue-400"></i>
 </div>
 </div>
-<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">位翻转攻击检测</h3>
+<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">参数位翻转漏洞对抗</h3>
 <div class="mb-8">
 <p class="text-gray-300 leading-relaxed mb-4">
 模型参数位翻转攻击检测，通过翻转神经网络权重参数的特定位，模拟硬件故障对模型推理的影响。
 </p>
 <p class="text-gray-400 leading-relaxed">
-<strong class="text-blue-300">测试算法的创新点：</strong>基于重要性评分的位翻转策略，能够精确定位对模型性能影响最大的关键参数位置。
+<strong class="text-blue-300">测试算法的创新点：</strong>基于梯度排序评分的位翻转策略，能够精确定位对模型性能影响最大的关键参数位置。
 </p>
 </div>
 <div class="flex gap-4 justify-center">
@@ -466,7 +211,7 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 <i class="ri-timer-flash-line text-blue-400"></i>
 </div>
 </div>
-<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">推理时间延迟攻击检测</h3>
+<h3 class="text-xl font-semibold text-blue-400 mb-6 text-center">推理时延漏洞对抗</h3>
 <div class="mb-8">
 <p class="text-gray-300 leading-relaxed mb-4">
 推理时间延迟攻击检测，通过注入计算复杂度高的恶意样本，导致模型推理时间显著增加。
@@ -1415,9 +1160,7 @@ if (btnReport2) {
     return;
   }
 }
-
 });
 </script>
-
 </body>
 </html>
