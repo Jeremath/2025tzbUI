@@ -85,158 +85,284 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 </h1>
 <div class="absolute -top-20 -left-20 w-40 h-40 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
 <div class="absolute -top-20 -right-20 w-40 h-40 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-<!-- 航天-威胁-检测-修复（Inline SVG 流程图，箭头加粗加大、纯白；黄色全部改为蓝色系） -->
+<!-- 遥感目标检测模型 yolov8（Inline SVG 版本） -->
 <div class="tech-card tech-border rounded-xl p-8 mb-8 tech-glow">
-  <h2 class="text-2xl font-semibold text-center text-blue-400 mb-6">系统流程图</h2>
   <div class="bg-[rgba(255,255,255,0.03)] rounded-xl p-6 backdrop-blur-sm border border-[rgba(255,255,255,0.1)]">
-    <svg viewBox="0 0 1200 420" width="100%" height="100%" role="img" aria-label="航天场景定义 → 威胁模型构建 → 漏洞检测方案 → 漏洞修复模型">
+    <svg viewBox="0 0 1200 380" width="100%" height="100%" role="img" aria-label="遥感目标检测模型 yolov8 - 三个漏洞场景与对应方法">
       <defs>
         <style>
-          .col { rx:16; ry:16; stroke-width:2; }
-          .hdr { font: 700 20px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto; fill:#111827; }
-          .item { rx:10; ry:10; }
-          .itxt { font: 600 16px/1.2 ui-sans-serif, system-ui; fill:#111827; }
-          .arrow { fill:#ffffff; stroke:#ffffff; stroke-width:2; opacity:1; }
+          .titleBox { rx:12; ry:12; fill:transparent; stroke:#60a5fa; stroke-width:3; }
+          .titleTxt { font:700 24px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto; fill:#4d8ff5; }
+          .col { rx:18; ry:18; fill:#dbeafe; stroke:#60a5fa; stroke-width:2; }
+          .colHdr { font:700 20px/1.2 ui-sans-serif, system-ui; fill:#0f172a; }
+          .item { rx:10; ry:10; fill:#93c5fd; }
+          .itemTxt { font:600 15px/1.25 ui-sans-serif, system-ui; fill:#0f172a; }
         </style>
       </defs>
 
-      <!-- 列1：航天场景定义（蓝） -->
-      <g transform="translate(40,40)">
-        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
-        <text class="hdr" x="125" y="40" text-anchor="middle">航天场景定义</text>
+      <!-- 顶部标题框 -->
+      <rect class="titleBox" x="40" y="16" width="1120" height="50"></rect>
+      <text class="titleTxt" x="600" y="47" text-anchor="middle" >遥感目标检测模型 yolov8</text>
 
-        <rect class="item" x="20" y="80"  width="210" height="56" fill="#93c5fd"/>
-        <text class="itxt" x="125" y="115" text-anchor="middle" fill="#0f172a">遥感识别与感知任务</text>
+      <!-- 三个场景列：尺寸与位置 -->
+      <!-- 列宽 300，高 240；X=80/450/820；Y=80 -->
+      <!-- 场景1 -->
+      <g transform="translate(80,80)">
+        <rect class="col" width="300" height="240"></rect>
+        <text class="colHdr" x="150" y="48" text-anchor="middle">漏洞场景1</text>
 
-        <rect class="item" x="20" y="150" width="210" height="56" fill="#93c5fd"/>
-        <text class="itxt" x="125" y="185" text-anchor="middle" fill="#0f172a">太空复杂、极端环境</text>
+        <rect class="item" x="30" y="80" width="240" height="56"></rect>
+        <text class="itemTxt" x="150" y="106" text-anchor="middle">基于对抗攻击的目标</text>
+        <text class="itemTxt" x="150" y="126" text-anchor="middle">误判漏洞检测</text>
 
-        <rect class="item" x="20" y="220" width="210" height="56" fill="#93c5fd"/>
-        <text class="itxt" x="125" y="255" text-anchor="middle" fill="#0f172a">实时性要求严格</text>
+        <rect class="item" x="30" y="150" width="240" height="56"></rect>
+        <text class="itemTxt" x="150" y="176" text-anchor="middle">基于对抗性训练的目</text>
+        <text class="itemTxt" x="150" y="196" text-anchor="middle">标识别漏洞修复</text>
       </g>
 
-      <!-- 加粗加大的白色箭头1 -->
-      <g transform="translate(292,186)">
-        <!-- 宽度约120，高度约56 -->
-        <path class="arrow" d="M0,0 h40 v-28 l80,28 l-80,28 v-28 h-40 z"></path>
+      <!-- 场景2 -->
+      <g transform="translate(450,80)">
+        <rect class="col" width="300" height="240"></rect>
+        <text class="colHdr" x="150" y="48" text-anchor="middle">漏洞场景2</text>
+
+        <rect class="item" x="30" y="80" width="240" height="56"></rect>
+        <text class="itemTxt" x="150" y="106" text-anchor="middle">基于渐进搜索的位翻</text>
+        <text class="itemTxt" x="150" y="126" text-anchor="middle">转漏洞检测</text>
+
+        <rect class="item" x="30" y="150" width="240" height="56"></rect>
+        <text class="itemTxt" x="150" y="176" text-anchor="middle">基于二值感知训练的</text>
+        <text class="itemTxt" x="150" y="196" text-anchor="middle">位翻转漏洞修复</text>
       </g>
 
-      <!-- 列2：威胁模型构建（由黄改蓝） -->
-      <g transform="translate(330,40)">
-        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
-        <text class="hdr" x="125" y="40" text-anchor="middle">威胁模型构建</text>
+      <!-- 场景3 -->
+      <g transform="translate(820,80)">
+        <rect class="col" width="300" height="240"></rect>
+        <text class="colHdr" x="150" y="48" text-anchor="middle">漏洞场景3</text>
 
-        <rect class="item" x="20" y="80"  width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="115" text-anchor="middle">目标误判漏洞</text>
+        <rect class="item" x="30" y="80" width="240" height="56"></rect>
+        <text class="itemTxt" x="150" y="106" text-anchor="middle">基于延迟攻击的实时</text>
+        <text class="itemTxt" x="150" y="126" text-anchor="middle">算法漏洞检测</text>
 
-        <rect class="item" x="20" y="150" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="185" text-anchor="middle">位翻转漏洞</text>
-
-        <rect class="item" x="20" y="220" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="255" text-anchor="middle">延迟攻击漏洞</text>
-      </g>
-
-      <!-- 加粗加大的白色箭头2 -->
-      <g transform="translate(582,186)">
-        <path class="arrow" d="M0,0 h40 v-28 l80,28 l-80,28 v-28 h-40 z"></path>
-      </g>
-
-      <!-- 列3：漏洞检测方案（蓝） -->
-      <g transform="translate(620,40)">
-        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
-        <text class="hdr" x="125" y="40" text-anchor="middle">漏洞检测方案</text>
-
-        <rect class="item" x="20" y="80" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="103" text-anchor="middle">基于对抗攻击的目标</text>
-        <text class="itxt" x="125" y="123" text-anchor="middle">误判漏洞检测</text>
-
-        <rect class="item" x="20" y="150" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="173" text-anchor="middle">基于渐进搜索的位翻</text>
-        <text class="itxt" x="125" y="193" text-anchor="middle">转漏洞检测</text>
-
-        <rect class="item" x="20" y="220" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="243" text-anchor="middle">基于延迟攻击的实时</text>
-        <text class="itxt" x="125" y="263" text-anchor="middle">算法漏洞检测</text>
-      </g>
-
-      <!-- 加粗加大的白色箭头3 -->
-      <g transform="translate(872,186)">
-        <path class="arrow" d="M0,0 h40 v-28 l80,28 l-80,28 v-28 h-40 z"></path>
-      </g>
-
-      <!-- 列4：漏洞修复模型（由黄改蓝） -->
-      <g transform="translate(910,40)">
-        <rect class="col" width="250" height="330" fill="#dbeafe" stroke="#60a5fa"/>
-        <text class="hdr" x="125" y="40" text-anchor="middle">漏洞修复模型</text>
-
-        <rect class="item" x="20" y="80" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="103" text-anchor="middle">基于对抗性训练的目</text>
-        <text class="itxt" x="125" y="123" text-anchor="middle">标识别漏洞修复</text>
-
-        <rect class="item" x="20" y="150" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="173" text-anchor="middle">基于二值感知训练的</text>
-        <text class="itxt" x="125" y="193" text-anchor="middle">位翻转漏洞修复</text>
-
-        <rect class="item" x="20" y="220" width="210" height="56" fill="#bfdbfe"/>
-        <text class="itxt" x="125" y="243" text-anchor="middle">基于背景感知对抗训</text>
-        <text class="itxt" x="125" y="263" text-anchor="middle">练的时延漏洞修复</text>
+        <rect class="item" x="30" y="150" width="240" height="56"></rect>
+        <text class="itemTxt" x="150" y="176" text-anchor="middle">基于背景感知对抗训</text>
+        <text class="itemTxt" x="150" y="196" text-anchor="middle">练的时延漏洞修复</text>
       </g>
     </svg>
   </div>
 </div>
 
-<!-- 模型下载区域 -->
+<!-- 模型上传区域（美化：拖拽/选择、进度条、成功/失败提示） -->
 <div class="text-center">
   <div class="inline-flex items-center gap-4">
-    <span class="text-lg text-white">下载 yolov8.pt 文件：</span>
+    <span class="text-lg text-white">上传 yolov8.pt 文件：</span>
+    <!-- 隐藏的文件选择框 -->
+    <input id="modelFile" type="file" accept=".pt" class="sr-only" />
 
-    <button id="downloadBtn" type="button"
-      class="bg-primary text-white px-6 py-3 !rounded-button hover:bg-blue-600 transition-colors whitespace-nowrap inline-flex items-center gap-2">
-      <span class="w-5 h-5 flex items-center justify-center">
-        <!-- 静态下载图标 -->
-        <i id="dlIcon" class="ri-download-line"></i>
-        <!-- 下载中旋转图标（默认隐藏） -->
-        <svg id="dlSpinner" class="hidden animate-spin" viewBox="0 0 24 24" width="18" height="18" fill="none">
-          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" opacity=".25"></circle>
-          <path d="M21 12a9 9 0 0 0-9-9" stroke="currentColor" stroke-width="3"></path>
-        </svg>
-      </span>
-      下载
+    <!-- 选择文件按钮 -->
+    <button id="chooseBtn" type="button"
+      class="bg-blue-600 text-white px-5 py-2.5 !rounded-button hover:bg-blue-700 transition-colors inline-flex items-center gap-2">
+      <i class="ri-folder-open-line text-xl"></i>
+      选择文件
     </button>
+
+    <!-- 开始上传按钮（初始禁用） -->
+    <button id="uploadBtn" type="button" disabled
+      class="bg-primary disabled:opacity-50 disabled:cursor-not-allowed text-white px-5 py-2.5 !rounded-button hover:bg-blue-600 transition-colors inline-flex items-center gap-2">
+      <i class="ri-upload-cloud-2-line text-xl"></i>
+      开始上传
+    </button>
+  </div>
+
+  <!-- 拖拽区域 -->
+  <div id="dropzone"
+       class="mt-5 max-w-2xl mx-auto border-2 border-dashed border-blue-400/60 rounded-xl p-6 bg-white/5 hover:bg-white/10 transition">
+    <div class="flex flex-col items-center justify-center gap-2 text-blue-100">
+      <i class="ri-cloud-line text-3xl"></i>
+      <p class="text-sm">将 <span class="font-semibold">.pt</span> 文件拖拽到此处，或点击上方“选择文件”</p>
+    </div>
+  </div>
+
+  <!-- 已选择文件信息 -->
+  <div id="fileInfo" class="mt-4 hidden">
+    <div class="inline-flex items-center gap-2 text-blue-100 bg-white/10 px-3 py-2 rounded-lg">
+      <i class="ri-file-line"></i>
+      <span id="fileName" class="font-medium"></span>
+      <span id="fileSize" class="text-sm opacity-80"></span>
+    </div>
+  </div>
+
+  <!-- 进度条 -->
+  <div id="progressWrap" class="mt-4 max-w-md mx-auto hidden">
+    <div class="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+      <div id="progressBar" class="h-2 bg-blue-500 rounded-full transition-all" style="width:0%"></div>
+    </div>
+    <div class="text-right text-xs text-blue-100 mt-1" id="progressText">0%</div>
   </div>
 </div>
 
+<!-- 成功/失败提示 -->
+<div id="toast" class="fixed hidden bottom-4 right-4 z-50">
+  <div id="toastInner"
+       class="flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-white bg-emerald-600">
+    <i class="ri-check-line text-lg"></i>
+    <span id="toastMsg">上传成功</span>
+  </div>
+</div>
+<!-- 模型上传区域（美化：拖拽/选择、进度条、成功/失败提示） -->
 <script>
-  (function () {
-    const btn = document.getElementById('downloadBtn');
-    const icon = document.getElementById('dlIcon');
-    const spinner = document.getElementById('dlSpinner');
+(function () {
+  // 若你有后端上传接口，请填写它；留空则使用本地模拟上传（仅演示进度与提示）
+  const UPLOAD_URL = ""; // 例如："/api/upload"
 
-    btn?.addEventListener('click', () => {
-      // UI: 禁用 + 显示旋转图标
-      btn.disabled = true;
-      btn.classList.add('opacity-80', 'cursor-not-allowed');
-      if (icon) icon.classList.add('hidden');
-      if (spinner) spinner.classList.remove('hidden');
+  const input = document.getElementById('modelFile');
+  const chooseBtn = document.getElementById('chooseBtn');
+  const uploadBtn = document.getElementById('uploadBtn');
 
-      // 触发下载（同源静态资源需确保可被服务器直接访问）
-      const a = document.createElement('a');
-      a.href = './src/yolov8.pt';
-      a.download = 'yolov8.pt';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+  const dropzone = document.getElementById('dropzone');
+  const fileInfo = document.getElementById('fileInfo');
+  const fileName = document.getElementById('fileName');
+  const fileSize = document.getElementById('fileSize');
 
-      // 简单复位 UI（下载会在浏览器继续进行）
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.classList.remove('opacity-80', 'cursor-not-allowed');
-        if (icon) icon.classList.remove('hidden');
-        if (spinner) spinner.classList.add('hidden');
-      }, 800);
-    });
-  })();
+  const progressWrap = document.getElementById('progressWrap');
+  const progressBar = document.getElementById('progressBar');
+  const progressText = document.getElementById('progressText');
+
+  const toast = document.getElementById('toast');
+  const toastInner = document.getElementById('toastInner');
+  const toastMsg = document.getElementById('toastMsg');
+
+  let file = null;
+
+  const formatSize = (bytes) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    if (bytes < 1024 * 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+    return `${(bytes / 1024 / 1024 / 1024).toFixed(1)} GB`;
+  };
+
+  const showToast = (msg, type = 'success') => {
+    toastMsg.textContent = msg;
+    // success / error 风格
+    toastInner.className =
+      "flex items-center gap-2 px-4 py-3 rounded-lg shadow-lg text-white " +
+      (type === 'success' ? "bg-emerald-600" : "bg-rose-600");
+    toast.classList.remove('hidden');
+    setTimeout(() => toast.classList.add('hidden'), 2800);
+  };
+
+  const validateFile = (f) => {
+    if (!f) return false;
+    const ext = f.name.toLowerCase().split('.').pop();
+    if (ext !== 'pt') {
+      showToast('仅支持 .pt 模型文件', 'error');
+      return false;
+    }
+    return true;
+  };
+
+  const onFilePicked = (f) => {
+    if (!validateFile(f)) return;
+    file = f;
+    fileName.textContent = f.name;
+    fileSize.textContent = `（${formatSize(f.size)}）`;
+    fileInfo.classList.remove('hidden');
+    uploadBtn.disabled = false;
+  };
+
+  // 选择文件
+  chooseBtn.addEventListener('click', () => input.click());
+  input.addEventListener('change', (e) => onFilePicked(e.target.files[0]));
+
+  // 拖拽
+  ;['dragenter', 'dragover'].forEach(evt =>
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add('ring-2', 'ring-blue-400');
+    })
+  );
+  ;['dragleave', 'drop'].forEach(evt =>
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove('ring-2', 'ring-blue-400');
+    })
+  );
+  dropzone.addEventListener('drop', (e) => {
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) onFilePicked(f);
+  });
+
+  // 上传（真实接口或模拟）
+  uploadBtn.addEventListener('click', async () => {
+    if (!file) return;
+
+    // UI 状态
+    uploadBtn.disabled = true;
+    chooseBtn.disabled = true;
+    uploadBtn.classList.add('opacity-80', 'cursor-not-allowed');
+    chooseBtn.classList.add('opacity-80', 'cursor-not-allowed');
+    progressWrap.classList.remove('hidden');
+    progressBar.style.width = '0%';
+    progressText.textContent = '0%';
+
+    if (UPLOAD_URL) {
+      // 真实上传：使用 XMLHttpRequest 以获得原生进度
+      const form = new FormData();
+      form.append('file', file, file.name);
+
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', UPLOAD_URL, true);
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          const p = Math.round((e.loaded / e.total) * 100);
+          progressBar.style.width = p + '%';
+          progressText.textContent = p + '%';
+        }
+      };
+      xhr.onload = () => {
+        const ok = xhr.status >= 200 && xhr.status < 300;
+        progressBar.style.width = '100%';
+        progressText.textContent = '100%';
+        showToast(ok ? `上传成功：${file.name}` : '上传失败', ok ? 'success' : 'error');
+        uploadBtn.disabled = false;
+        chooseBtn.disabled = false;
+        uploadBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+        chooseBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+      };
+      xhr.onerror = () => {
+        showToast('上传失败，请检查网络或接口', 'error');
+        uploadBtn.disabled = false;
+        chooseBtn.disabled = false;
+        uploadBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+        chooseBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+      };
+      xhr.send(form);
+    } else {
+      // 本地模拟上传：平滑进度到 100%
+      let p = 0;
+      const timer = setInterval(() => {
+        p += Math.max(1, Math.round((100 - p) * 0.12));
+        if (p >= 100) p = 100;
+        progressBar.style.width = p + '%';
+        progressText.textContent = p + '%';
+        if (p === 100) {
+          clearInterval(timer);
+          setTimeout(() => {
+            showToast(`上传成功：${file.name}`, 'success');
+            uploadBtn.disabled = false;
+            chooseBtn.disabled = false;
+            uploadBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+            chooseBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+          }, 250);
+        }
+      }, 120);
+    }
+  });
+})();
 </script>
+
 
 <!-- 功能模块区域 -->
 <div class="max-w-7xl mx-auto px-6 py-12">
@@ -324,105 +450,164 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 </div>
 </div>
 </div>
+
 <!-- 检测结果弹窗 -->
 <div id="detectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-<div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-<div class="p-8">
-<div class="flex justify-between items-center mb-6">
-<h3 id="detectModalTitle" class="text-2xl font-semibold text-gray-900">检测结果</h3>
-<button id="closeDetectModal" class="text-gray-500 hover:text-gray-700">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-close-line ri-lg"></i>
+  <div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 id="detectModalTitle" class="text-2xl font-semibold text-gray-900">检测结果</h3>
+        <button id="closeDetectModal" class="text-gray-500 hover:text-gray-700">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-close-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+      <div id="detectModalContent" class="text-gray-700"><!-- 动态内容 --></div>
+    </div>
+  </div>
 </div>
-</button>
-</div>
-<div id="detectModalContent" class="text-gray-700">
-<!-- 动态内容 -->
-</div>
-</div>
-</div>
-</div>
+
 <!-- 修复结果弹窗 -->
 <div id="repairModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-<div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-<div class="p-8">
-<div class="flex justify-between items-center mb-6">
-<h3 id="repairModalTitle" class="text-2xl font-semibold text-gray-900">修复结果</h3>
-<button id="closeRepairModal" class="text-gray-500 hover:text-gray-700">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-close-line ri-lg"></i>
+  <div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 id="repairModalTitle" class="text-2xl font-semibold text-gray-900">修复结果</h3>
+        <button id="closeRepairModal" class="text-gray-500 hover:text-gray-700">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-close-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+      <div id="repairModalContent" class="text-gray-700"><!-- 动态内容 --></div>
+    </div>
+  </div>
 </div>
-</button>
+
+<!-- ⏳ 等待中弹窗（新增） -->
+<style>
+@keyframes progressRun{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+</style>
+<div id="loadingModal" class="fixed inset-0 bg-black/60 hidden z-[60] flex items-center justify-center">
+  <div class="w-[min(92vw,520px)] bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-center text-white shadow-2xl">
+    <div class="mx-auto mb-4 w-14 h-14 rounded-full border-4 border-white/30 border-t-white animate-spin"></div>
+    <h3 id="loadingTitle" class="text-lg font-semibold mb-1">处理中...</h3>
+    <p class="text-xs opacity-80 mb-5">预计耗时约 <span id="loadingSeconds">5</span> 秒，请稍候</p>
+    <div class="h-1.5 bg-white/20 rounded-full overflow-hidden">
+      <div class="h-full w-1/3 bg-white/90" style="animation:progressRun 1.2s linear infinite;"></div>
+    </div>
+  </div>
 </div>
-<div id="repairModalContent" class="text-gray-700">
-<!-- 动态内容 -->
-</div>
-</div>
-</div>
-</div>
+
 <script id="download-handler">
 document.addEventListener('DOMContentLoaded', function() {
-const downloadBtn = document.getElementById('downloadBtn');
-downloadBtn.addEventListener('click', function() {
-// 模拟文件下载
-const link = document.createElement('a');
-link.href = '#';
-link.download = 'yolov8.pt';
-link.textContent = 'yolov8.pt';
-// 创建临时提示
-const originalText = downloadBtn.innerHTML;
-downloadBtn.innerHTML = '<div class="w-5 h-5 flex items-center justify-center"><i class="ri-check-line"></i></div>下载中...';
-downloadBtn.disabled = true;
-setTimeout(() => {
-downloadBtn.innerHTML = originalText;
-downloadBtn.disabled = false;
-alert('yolov8.pt 文件下载完成！');
-}, 2000);
-});
+  const downloadBtn = document.getElementById('downloadBtn');
+  if (!downloadBtn) return; // 保护
+  downloadBtn.addEventListener('click', function() {
+    const link = document.createElement('a');
+    link.href = '#';
+    link.download = 'yolov8.pt';
+    const originalText = downloadBtn.innerHTML;
+    downloadBtn.innerHTML = '<div class="w-5 h-5 flex items-center justify-center"><i class="ri-check-line"></i></div>下载中...';
+    downloadBtn.disabled = true;
+    setTimeout(() => {
+      downloadBtn.innerHTML = originalText;
+      downloadBtn.disabled = false;
+      alert('yolov8.pt 文件下载完成！');
+    }, 2000);
+  });
 });
 </script>
+
 <script id="modal-handlers">
 document.addEventListener('DOMContentLoaded', function() {
-const detectModal = document.getElementById('detectModal');
-const repairModal = document.getElementById('repairModal');
-const closeDetectModal = document.getElementById('closeDetectModal');
-const closeRepairModal = document.getElementById('closeRepairModal');
-// 关闭弹窗事件
-closeDetectModal.addEventListener('click', () => {
-detectModal.classList.add('hidden');
-});
-closeRepairModal.addEventListener('click', () => {
-repairModal.classList.add('hidden');
-});
-// 点击背景关闭弹窗
-detectModal.addEventListener('click', (e) => {
-if (e.target === detectModal) {
-detectModal.classList.add('hidden');
-}
-});
-repairModal.addEventListener('click', (e) => {
-if (e.target === repairModal) {
-repairModal.classList.add('hidden');
-}
-});
+  const detectModal = document.getElementById('detectModal');
+  const repairModal = document.getElementById('repairModal');
+  const closeDetectModal = document.getElementById('closeDetectModal');
+  const closeRepairModal = document.getElementById('closeRepairModal');
+
+  closeDetectModal.addEventListener('click', () => detectModal.classList.add('hidden'));
+  closeRepairModal.addEventListener('click', () => repairModal.classList.add('hidden'));
+
+  detectModal.addEventListener('click', (e) => { if (e.target === detectModal) detectModal.classList.add('hidden'); });
+  repairModal.addEventListener('click', (e) => { if (e.target === repairModal) repairModal.classList.add('hidden'); });
 });
 </script>
 <script id="scenario-handlers">
 document.addEventListener('DOMContentLoaded', function() {
 const detectBtns = document.querySelectorAll('.scenario-detect-btn');
 const repairBtns = document.querySelectorAll('.scenario-repair-btn');
-// 检测按钮事件
+
+// —— 新增：美化的“等待中”界面（5s±2s） ——
+function ensureLoadingOverlay() {
+  let overlay = document.getElementById('loadingOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'loadingOverlay';
+    overlay.className = 'fixed inset-0 z-[60] hidden';
+    overlay.innerHTML = `
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-[min(92vw,520px)] bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-center text-white shadow-2xl">
+          <div class="mx-auto mb-4 w-14 h-14 rounded-full border-4 border-white/30 border-t-white animate-spin"></div>
+          <h3 id="loadingOverlayTitle" class="text-lg font-semibold mb-1">处理中...</h3>
+          <p class="text-xs opacity-90 mb-5">预计耗时约 <span id="loadingOverlaySec">5</span> 秒，请稍候</p>
+          <div class="h-1.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full w-1/3 bg-white/90 animate-[progressRun_1.2s_linear_infinite]"></div>
+          </div>
+        </div>
+      </div>`;
+    const style = document.createElement('style');
+    style.textContent = `@keyframes progressRun{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}`;
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+  }
+  return overlay;
+}
+function showLoading(kind, ms, overlay = ensureLoadingOverlay()) {
+  const t = overlay.querySelector('#loadingOverlayTitle');
+  const s = overlay.querySelector('#loadingOverlaySec');
+  t.textContent = kind === 'detect' ? '正在检测…' : '正在修复…';
+  s.textContent = Math.round(ms / 1000);
+  let remain = Math.round(ms / 1000);
+  clearInterval(overlay._timer);
+  overlay._timer = setInterval(() => {
+    remain = Math.max(0, remain - 1);
+    s.textContent = remain;
+    if (remain === 0) clearInterval(overlay._timer);
+  }, 1000);
+  overlay.classList.remove('hidden');
+}
+function hideLoading(overlay = document.getElementById('loadingOverlay')) {
+  if (!overlay) return;
+  clearInterval(overlay._timer);
+  overlay.classList.add('hidden');
+}
+
+// 检测按钮事件（先显示等待界面，再弹结果）
 detectBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-const scenario = this.getAttribute('data-scenario');
-showDetectResult(scenario);
+  btn.addEventListener('click', function () {
+    const scenario = this.getAttribute('data-scenario');
+    const delay = Math.floor(2000 + Math.random() * 3000); // 2s ± 3s
+    showLoading('detect', delay);
+    setTimeout(() => {
+      hideLoading();
+      showDetectResult(scenario); // 你的现有实现
+    }, delay);
+  });
 });
-});
+
 // 修复按钮事件
 repairBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-const scenario = this.getAttribute('data-scenario');
-showRepairResult(scenario);
+  btn.addEventListener('click', function() {
+    const scenario = this.getAttribute('data-scenario');
+    const delay = Math.floor(4000 + Math.random() * 4000); // 4s ± 4s
+    showLoading('repair', delay);
+setTimeout(() => {
+  hideLoading();
+  showRepairResult(scenario);
+}, delay);
 });
 });
 function showDetectResult(scenario) {

@@ -450,105 +450,164 @@ OrbitGuard: 面向航天遥感目标检测模型的可靠性评估与漏洞对�
 </div>
 </div>
 </div>
+
 <!-- 检测结果弹窗 -->
 <div id="detectModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-<div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-<div class="p-8">
-<div class="flex justify-between items-center mb-6">
-<h3 id="detectModalTitle" class="text-2xl font-semibold text-gray-900">检测结果</h3>
-<button id="closeDetectModal" class="text-gray-500 hover:text-gray-700">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-close-line ri-lg"></i>
+  <div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 id="detectModalTitle" class="text-2xl font-semibold text-gray-900">检测结果</h3>
+        <button id="closeDetectModal" class="text-gray-500 hover:text-gray-700">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-close-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+      <div id="detectModalContent" class="text-gray-700"><!-- 动态内容 --></div>
+    </div>
+  </div>
 </div>
-</button>
-</div>
-<div id="detectModalContent" class="text-gray-700">
-<!-- 动态内容 -->
-</div>
-</div>
-</div>
-</div>
+
 <!-- 修复结果弹窗 -->
 <div id="repairModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
-<div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-<div class="p-8">
-<div class="flex justify-between items-center mb-6">
-<h3 id="repairModalTitle" class="text-2xl font-semibold text-gray-900">修复结果</h3>
-<button id="closeRepairModal" class="text-gray-500 hover:text-gray-700">
-<div class="w-6 h-6 flex items-center justify-center">
-<i class="ri-close-line ri-lg"></i>
+  <div class="bg-white rounded-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+    <div class="p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h3 id="repairModalTitle" class="text-2xl font-semibold text-gray-900">修复结果</h3>
+        <button id="closeRepairModal" class="text-gray-500 hover:text-gray-700">
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-close-line ri-lg"></i>
+          </div>
+        </button>
+      </div>
+      <div id="repairModalContent" class="text-gray-700"><!-- 动态内容 --></div>
+    </div>
+  </div>
 </div>
-</button>
+
+<!-- ⏳ 等待中弹窗（新增） -->
+<style>
+@keyframes progressRun{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+</style>
+<div id="loadingModal" class="fixed inset-0 bg-black/60 hidden z-[60] flex items-center justify-center">
+  <div class="w-[min(92vw,520px)] bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-center text-white shadow-2xl">
+    <div class="mx-auto mb-4 w-14 h-14 rounded-full border-4 border-white/30 border-t-white animate-spin"></div>
+    <h3 id="loadingTitle" class="text-lg font-semibold mb-1">处理中...</h3>
+    <p class="text-xs opacity-80 mb-5">预计耗时约 <span id="loadingSeconds">5</span> 秒，请稍候</p>
+    <div class="h-1.5 bg-white/20 rounded-full overflow-hidden">
+      <div class="h-full w-1/3 bg-white/90" style="animation:progressRun 1.2s linear infinite;"></div>
+    </div>
+  </div>
 </div>
-<div id="repairModalContent" class="text-gray-700">
-<!-- 动态内容 -->
-</div>
-</div>
-</div>
-</div>
+
 <script id="download-handler">
 document.addEventListener('DOMContentLoaded', function() {
-const downloadBtn = document.getElementById('downloadBtn');
-downloadBtn.addEventListener('click', function() {
-// 模拟文件下载
-const link = document.createElement('a');
-link.href = '#';
-link.download = 'yolov8.pt';
-link.textContent = 'yolov8.pt';
-// 创建临时提示
-const originalText = downloadBtn.innerHTML;
-downloadBtn.innerHTML = '<div class="w-5 h-5 flex items-center justify-center"><i class="ri-check-line"></i></div>下载中...';
-downloadBtn.disabled = true;
-setTimeout(() => {
-downloadBtn.innerHTML = originalText;
-downloadBtn.disabled = false;
-alert('yolov8.pt 文件下载完成！');
-}, 2000);
-});
+  const downloadBtn = document.getElementById('downloadBtn');
+  if (!downloadBtn) return; // 保护
+  downloadBtn.addEventListener('click', function() {
+    const link = document.createElement('a');
+    link.href = '#';
+    link.download = 'yolov8.pt';
+    const originalText = downloadBtn.innerHTML;
+    downloadBtn.innerHTML = '<div class="w-5 h-5 flex items-center justify-center"><i class="ri-check-line"></i></div>下载中...';
+    downloadBtn.disabled = true;
+    setTimeout(() => {
+      downloadBtn.innerHTML = originalText;
+      downloadBtn.disabled = false;
+      alert('yolov8.pt 文件下载完成！');
+    }, 2000);
+  });
 });
 </script>
+
 <script id="modal-handlers">
 document.addEventListener('DOMContentLoaded', function() {
-const detectModal = document.getElementById('detectModal');
-const repairModal = document.getElementById('repairModal');
-const closeDetectModal = document.getElementById('closeDetectModal');
-const closeRepairModal = document.getElementById('closeRepairModal');
-// 关闭弹窗事件
-closeDetectModal.addEventListener('click', () => {
-detectModal.classList.add('hidden');
-});
-closeRepairModal.addEventListener('click', () => {
-repairModal.classList.add('hidden');
-});
-// 点击背景关闭弹窗
-detectModal.addEventListener('click', (e) => {
-if (e.target === detectModal) {
-detectModal.classList.add('hidden');
-}
-});
-repairModal.addEventListener('click', (e) => {
-if (e.target === repairModal) {
-repairModal.classList.add('hidden');
-}
-});
+  const detectModal = document.getElementById('detectModal');
+  const repairModal = document.getElementById('repairModal');
+  const closeDetectModal = document.getElementById('closeDetectModal');
+  const closeRepairModal = document.getElementById('closeRepairModal');
+
+  closeDetectModal.addEventListener('click', () => detectModal.classList.add('hidden'));
+  closeRepairModal.addEventListener('click', () => repairModal.classList.add('hidden'));
+
+  detectModal.addEventListener('click', (e) => { if (e.target === detectModal) detectModal.classList.add('hidden'); });
+  repairModal.addEventListener('click', (e) => { if (e.target === repairModal) repairModal.classList.add('hidden'); });
 });
 </script>
 <script id="scenario-handlers">
 document.addEventListener('DOMContentLoaded', function() {
 const detectBtns = document.querySelectorAll('.scenario-detect-btn');
 const repairBtns = document.querySelectorAll('.scenario-repair-btn');
-// 检测按钮事件
+
+// —— 新增：美化的“等待中”界面（5s±2s） ——
+function ensureLoadingOverlay() {
+  let overlay = document.getElementById('loadingOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'loadingOverlay';
+    overlay.className = 'fixed inset-0 z-[60] hidden';
+    overlay.innerHTML = `
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-[min(92vw,520px)] bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8 text-center text-white shadow-2xl">
+          <div class="mx-auto mb-4 w-14 h-14 rounded-full border-4 border-white/30 border-t-white animate-spin"></div>
+          <h3 id="loadingOverlayTitle" class="text-lg font-semibold mb-1">处理中...</h3>
+          <p class="text-xs opacity-90 mb-5">预计耗时约 <span id="loadingOverlaySec">5</span> 秒，请稍候</p>
+          <div class="h-1.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full w-1/3 bg-white/90 animate-[progressRun_1.2s_linear_infinite]"></div>
+          </div>
+        </div>
+      </div>`;
+    const style = document.createElement('style');
+    style.textContent = `@keyframes progressRun{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}`;
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+  }
+  return overlay;
+}
+function showLoading(kind, ms, overlay = ensureLoadingOverlay()) {
+  const t = overlay.querySelector('#loadingOverlayTitle');
+  const s = overlay.querySelector('#loadingOverlaySec');
+  t.textContent = kind === 'detect' ? '正在检测…' : '正在修复…';
+  s.textContent = Math.round(ms / 1000);
+  let remain = Math.round(ms / 1000);
+  clearInterval(overlay._timer);
+  overlay._timer = setInterval(() => {
+    remain = Math.max(0, remain - 1);
+    s.textContent = remain;
+    if (remain === 0) clearInterval(overlay._timer);
+  }, 1000);
+  overlay.classList.remove('hidden');
+}
+function hideLoading(overlay = document.getElementById('loadingOverlay')) {
+  if (!overlay) return;
+  clearInterval(overlay._timer);
+  overlay.classList.add('hidden');
+}
+
+// 检测按钮事件（先显示等待界面，再弹结果）
 detectBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-const scenario = this.getAttribute('data-scenario');
-showDetectResult(scenario);
+  btn.addEventListener('click', function () {
+    const scenario = this.getAttribute('data-scenario');
+    const delay = Math.floor(2000 + Math.random() * 6000); // 2s ± 6s
+    showLoading('detect', delay);
+    setTimeout(() => {
+      hideLoading();
+      showDetectResult(scenario); // 你的现有实现
+    }, delay);
+  });
 });
-});
+
 // 修复按钮事件
 repairBtns.forEach(btn => {
-btn.addEventListener('click', function() {
-const scenario = this.getAttribute('data-scenario');
-showRepairResult(scenario);
+  btn.addEventListener('click', function() {
+    const scenario = this.getAttribute('data-scenario');
+    const delay = Math.floor(2000 + Math.random() * 6000); // 2s ± 6s
+    showLoading('repair', delay);
+setTimeout(() => {
+  hideLoading();
+  showRepairResult(scenario);
+}, delay);
 });
 });
 function showDetectResult(scenario) {
